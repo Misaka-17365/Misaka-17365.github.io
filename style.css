@@ -1,0 +1,89 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+#page{
+    min-width: 400px;
+    margin: 0px;
+}
+
+#head{
+    height: 800px;
+    width: 100%;
+    background-position: top, center;
+    background-image: url(figure/wallpaper.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+#nav{
+    height: 51px;
+    /*
+    border: 1px;
+    border-top-color: gray;
+    border-bottom-color: gray;
+    border-style: solid;
+    border-left: none;
+    border-right: none;
+    */
+    background-color: rgba(223, 210, 210, 0);
+}
+#nav > a > img{
+    margin-left: 15px;
+}
+
+#nav table{
+    float: right;
+    height: 50px;
+    border-collapse: collapse;
+    margin-right: 20px;
+}
+#nav td{
+    height: 50px;
+    width: 80px;
+}
+#nav table a{
+    display: block;
+    background-color: rgba(214, 179, 179, 0);
+    height: 100%;
+    line-height: 50px;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    font-size: large;
+}
+#nav table a:hover{
+    display: block;
+    background-color: rgba(214, 179, 179, 0);
+    height: 100%;
+    line-height: 50px;
+    text-decoration: underline;
+    text-align: center;
+    color: white;
+    font-size: large;
+}
+
+#shortcut{
+    margin-top: 50px;
+    height: 70%;
+    width: 90%;/*
+    border-style: solid;*/
+    margin-left: auto;
+    margin-right: auto;
+}
+#shortcut > .stit{/*
+    border-style: solid;*/
+    margin: 5%;
+    height: 150px;
+    width: 150px;
+    float: left;
+    text-align: center;
+    color: white;
+}
+
+#sheet{
+    height: 800px;
+    background-color: white;
+    z-index: 99;
+}
