@@ -6,15 +6,17 @@ a{text-decoration: none;}
 body{
     min-width: 800px;
     margin: 0px;
+    background-image: url(figure/background.jpg);
+    background-position: top center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #head{
     min-height: 800px;
     width: 100%;
-    background-color: rgb(219, 219, 218);
-    background-image: url(figure/background.jpg);
-    background-position: top center;
-    background-size: cover;
+    background-color: rgba(219, 219, 218, 0);
     z-index: 0;
 }
 

@@ -2,16 +2,20 @@
 
 body{
     min-width: 800px;
-    background-color: rgb(206, 206, 206);
+    background-color: rgb(245, 245, 245);
+    background-image: url(../figure/share_background.jpg);
+    background-attachment: fixed;
 }
 
 #nav{
     width: 100%;
     height: 51px;
-    box-shadow: 0px 2px 4px 0px;
+    box-shadow: 0px 2px 2px 0px;
     position: fixed;
     top: 0px;
     background-color: rgba(255, 255, 255, 0.801);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 #nav>span{
     display: block;
@@ -23,7 +27,7 @@ body{
 }
 
 .cat{
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.582);
     margin-left: 20px;
     margin-right: 20px;
     border-radius: 10px;
@@ -31,6 +35,7 @@ body{
     border: 1px solid;
     box-shadow: 0px 2px 4px rgba(36, 36, 36, 0.548);
     margin-bottom: 20px;
+    float: left;
 }
 
 .cat>h1{
@@ -40,7 +45,7 @@ body{
     font-weight: 200;
 }
 .cat>a{
-    display: inline-block;
+    display: block;
     margin: 10px;
     height: 60px;
     border: 1px ;
@@ -48,6 +53,8 @@ body{
     box-shadow: 0px 2px 4px 0px gray;
     color: rgb(54, 54, 54);
     border-color: rgb(179, 179, 179);
+    background-color: rgba(255, 255, 255, 0.856);
+    border-radius: 5px;
     
 }
 .cat>a>img{
