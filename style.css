@@ -44,7 +44,7 @@ a{text-decoration: none;}
 }
 #nav td{
     height: 50px;
-    width: 100px;
+    width: 120px;
 }
 #menu .dropdown>a{
     display: block;
@@ -66,7 +66,7 @@ a{text-decoration: none;}
 #menu .dropdown>.drop-content{
     position: absolute;
     display: none;
-    width: 100px;
+    width: 120px;
     line-height: 50px;
     text-align: center;
     color: white;
