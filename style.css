@@ -1,19 +1,20 @@
-*{
-    margin: 0px;
-    padding: 0px;
-}
+*{margin: 0px;padding: 0px;}
+ul{list-style: none;}
+a{text-decoration: none;}
+
+
 #page{
-    min-width: 400px;
+    min-width: 800px;
     margin: 0px;
 }
 
 #head{
-    height: 800px;
+    min-height: 800px;
     width: 100%;
-    background-position: top, center;
-    background-image: url(figure/wallpaper.png);
+    background-color: rgb(219, 219, 218);
+    background-image: url(figure/background.jpg);
+    background-position: top center;
     background-size: cover;
-    background-repeat: no-repeat;
     z-index: 0;
 }
 
@@ -27,7 +28,9 @@
     border-left: none;
     border-right: none;
     */
-    background-color: rgba(223, 210, 210, 0);
+    background-color: rgba(204, 204, 204, 0.801);
+    box-shadow: 0px 2px 4px 0px;
+    z-index: 999;
 }
 #nav > a > img{
     margin-left: 15px;
@@ -41,32 +44,63 @@
 }
 #nav td{
     height: 50px;
-    width: 80px;
+    width: 100px;
 }
-#nav table a{
+#menu .dropdown>a{
     display: block;
     background-color: rgba(214, 179, 179, 0);
     height: 100%;
+    width: 100%;
     line-height: 50px;
     text-decoration: none;
     text-align: center;
-    color: white;
+    color: rgb(58, 58, 58);
     font-size: large;
 }
-#nav table a:hover{
+#menu .dropdown>a:hover{
     display: block;
-    background-color: rgba(214, 179, 179, 0);
-    height: 100%;
+    text-align: center;
+    color: white;
+    background-color: rgba(105, 105, 105, 0.288);
+}
+#menu .dropdown>.drop-content{
+    position: absolute;
+    display: none;
+    width: 100px;
     line-height: 50px;
-    text-decoration: underline;
     text-align: center;
     color: white;
     font-size: large;
+    background-color: rgba(105, 105, 105, 0.164);
+}
+#menu .dropdown li>a{
+
+    font-size: smaller;
+    color: rgba(255, 255, 255, 0.623);
+    display: block;
+}
+#menu .dropdown li>a:hover{
+    color: white;
+    background-color: rgba(145, 145, 145, 0.521);
+}
+#menu .dropdown:hover .drop-content{
+    display: block;
+}
+#menu .dropdown:hover a{
+    background-color: rgba(105, 105, 105, 0.288);
 }
 
+
+
+
+
+
+
+
+
 #shortcut{
-    margin-top: 50px;
-    height: 70%;
+    margin-top: 150px;
+    height: 50%;
     width: 90%;/*
     border-style: solid;*/
     margin-left: auto;
@@ -74,12 +108,32 @@
 }
 #shortcut > .stit{/*
     border-style: solid;*/
-    margin: 5%;
-    height: 150px;
-    width: 150px;
+    margin: 3%;
+    height: 120px;
+    width: 120px;
+    padding: 10px;
     float: left;
     text-align: center;
+    color: rgb(0, 0, 0);
+    /*background-image: url(figure/sc_bg.jpg);*/
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 0.397);
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px 0px;
+    border-style: solid;
+    border-color: rgba(240, 248, 255, 0);
+    border-width: 2px;
+
+}
+#shortcut>.stit:hover{
     color: white;
+    box-shadow: none;
+    border-color: rgb(250, 250, 250);
+}
+#shortcut a{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    text-shadow: 2px;
 }
 
 #sheet{

@@ -1,24 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8"\>
-		<title>蛮大的屋子（￣︶￣）↗　</title>
-		<link rel="shortcut icon" href="figure/ico.gif">
-		<link type="text/css" rel="stylesheet" href="style.css" />
-	</head>
-	<body>
-		<div id="page">
-			<div id="head">
-				<div id="nav">
-					<a href="https://misaka-17365.github.io"><img src="figure/logo.svg" height="100%" alt="网页Logo"> </a>
-					<table id="menu">
-						<tr>
-							
-							<td><a href="collections.html">网站收藏</a></td>
-							<td><a href="share.html">资源分享</a></td>
-							<td><a href="express.html">快速到达</a></td>
-							<td><a href="selfintro.html">个人简介</a></td>
-							<!--
+
+<head>
+	<meta charset="UTF-8" />
+	<title>蛮大的屋子（￣︶￣）↗　</title>
+	<link rel="shortcut icon" href="figure/ico.gif">
+	<link type="text/css" rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+	<div id="page">
+		<div id="head">
+			<div id="nav">
+				<a href="https://misaka-17365.github.io"><img src="figure/logo_withText.png" height="100%" alt="网页Logo"> </a>
+				<table id="menu">
+					<tr>
+						<td>
+							<div class="dropdown">
+								<a href="collections.html">网站收藏</a>
+								<div class="drop-content">
+									<ul>
+										<li><a>资源搜素</a></li>
+										<li><a>在线工具</a></li>
+										<li><a>Latex查阅</a></li>
+									</ul>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="dropdown">
+								<a href="share.html">资源分享</a>
+								<div class="drop-content">
+									<ul>
+										<li><a>在线资源</a></li>
+										<li><a>工具分享</a></li>
+										<li><a>电子书分享</a></li>
+									</ul>
+								</div>
+							</div>
+						</td>
+						<td><div class="dropdown">
+							<a href="express.html">快速到达</a>
+							<div class="drop-content">
+								<ul>
+									<li><a href="https://www.uestc.edu.cn/">电子科技大学</a></li>
+									<li><a href="https://idas.uestc.edu.cn/authserver/login?service=http://eams.uestc.edu.cn/eams/login.action">教务系统</a></li>
+									<li><a href="https://www.qiusuozhilu.com/">求索之路</a></li>
+									
+								</ul>
+							</div>
+						</div></td>
+						<td><div class="dropdown">
+							<a href="selfintro.html">个人简介</a>
+							<div class="drop-content">
+								<ul>
+									<li><a>TA的介绍</a></li>
+									<li><a>TA的B站</a></li>
+									<li><a>TA的网抑云</a></li>
+								</ul>
+							</div>
+						</div></td>
+						<!--
 							<td><a href="https://www.qiusuozhilu.com/" target="_blank">求索之路</a></td>
 							<td><a href="https://space.bilibili.com/157153749" target="_blank">B站主页</a></td>
 							
@@ -26,32 +68,49 @@
 							<h1><a href="https://idas.uestc.edu.cn/authserver/login?service=http://eams.uestc.edu.cn/eams/login.action" target="_blank">教务系统网站</a> </h1>
 							<h1><a href="https://music.163.com/#/user/home?id=1307318540" target="_blank">网抑云主页</a> </h1>
 							-->
-						</tr>
-					</table>
-				</div>
-				<div id="shortcut">
-					<div onclick="window.open('https://www.uestc.edu.cn/');" class="stit">
-						<img src="figure/uestc_logo.jpg" height="80%">
-						<p>电子科技大学官网</p>
-					</div>
-					<div onclick="window.open('https://idas.uestc.edu.cn/authserver/login?service=http://eams.uestc.edu.cn/eams/login.action');" class="stit">
-						<img src="figure/uestc_logo.jpg" height="80%">
-						<p>教务处</p>
-					</div>
-					<div class="stit" onclick="window.open('https://www.qiusuozhilu.com/');">
-						<img src="figure/qszl_logo.png" width="80%">
-						<p>求索之路官网</p>
-
-					</div>
-
-				</div>
+					</tr>
+				</table>
 			</div>
-		<div id="blank"></div>
-		<div id="sheet">
-			
+			<div id="shortcut">
+				<div class="stit">
+					<a href="https://www.uestc.edu.cn/" target="_blank">
+					<img src="figure/uestc_logo.png" height="80%">
+					<p>成电官网</p>
+				</a>
+				</div>
+				<div class="stit">
+					<a href="https://idas.uestc.edu.cn/authserver/login?service=http://eams.uestc.edu.cn/eams/login.action" target="_blank">
+					<img src="figure/uestc_logo.png" height="80%">
+					<p>教务系统</p></a>
+				</div>
+				<div class="stit">
+					<a href="https://www.qiusuozhilu.com/" target="_blank">
+					<img src="figure/qszl_logo.png" width="80%">
+					<p>求索之路</p>
+				</a>
+				</div>
+				<div class="stit">
+					<a href="https://www.jiumosearch.com/" target="_blank">
+						<img src="figure/jm_logo.png" width="80%">
+						<p>鸠摩搜书</p>
+					</a>
+				</div>
+				<div class="stit">
+					<a href="https://github.com/" target="_blank">
+						<img src="figure/github_logo.png" width="80%">
+						<p>github</p>
+					</a>
+				</div>
+				<div class="stit">
+					<a href="https://msdn.itellyou.cn/" target="_blank">
+						<img src="https://static.itellyou.cn/images/logo.png" width="80%" alt="ITELLYOU.CN">
+						<p>MSDN</p>
+					</a>
+				</div>
 
+			</div>
 		</div>
-		</div>
-		
-	</body>
+	</div>
+</body>
+
 </html>
