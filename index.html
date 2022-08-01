@@ -38,56 +38,24 @@
 					<a href="https://music.163.com/#/user/home?id=1307318540">TA的网抑云</a>
 				</div>
 			</div>
-			<!--
-			<table id="menu">
-				<tr>
-					<td>
-						<div class="dropdown">
-							<a href="collections/search.html">网站收藏</a>
-							<div class="drop-content">
-								<ul>
-									<li><a href="collections/search.html">资源搜素</a></li>
-									<li><a href="collections/online-tools.html">在线工具</a></li>
-									<li><a href="collections/LaTeX-info.html">LaTex查阅</a></li>
-								</ul>
-							</div>
-						</div>
-					</td>
-					<td>
-						<div class="dropdown">
-							<a href="eBook-share/entertainment.html">电子书分享</a>
-							<div class="drop-content">
-								<ul>
-									<li><a href="eBook-share/entertainment.html">娱乐</a></li>
-									<li><a href="eBook-share/thinking.html">思考</a></li>
-									<li><a href="eBook-share/technology.html">技术</a></li>
-								</ul>
-							</div>
-						</div>
-					</td>
-					<td>
-						
-					</td>
-					<td>
-						<div class="dropdown">
-							<a href="about/index.html">关于</a>
-							<div class="drop-content">
-								<ul>
-									<li><a target="_blank" href="https://space.bilibili.com/157153749">TA的B站</a></li>
-									<li><a target="_blank" href="https://music.163.com/#/user/home?id=1307318540">TA的网抑云</a></li>
-								</ul>
-							</div>
-						</div>
-					</td>
-						<td><a href="https://www.qiusuozhilu.com/" target="_blank">求索之路</a></td>
-						<td><a href="https://space.bilibili.com/157153749" target="_blank">B站主页</a></td>
-						
-						<h1> <a id="uestc" href="https://www.uestc.edu.cn/" target="_blank">电子科技大学官网</a> </h1>
-						<h1><a href="https://idas.uestc.edu.cn/authserver/login?service=http://eams.uestc.edu.cn/eams/login.action" target="_blank">教务系统网站</a> </h1>
-						<h1><a href="https://music.163.com/#/user/home?id=1307318540" target="_blank">网抑云主页</a> </h1>
-				</tr>
-			</table>-->
 		</div>
+		<div id="search">
+			<input id="searchbar" onkeydown="if(event.keyCode=='13')
+			{
+				if(document.getElementById('searchbar').value!='输入搜索内容')
+				{
+					window.open('https://www.ecosia.org/search?q='+document.getElementById('searchbar').value)
+				}
+			}" type="text" value="输入搜索内容" onfocus="if(value=='输入搜索内容'){value='';changeColor();}" onblur="if(value==''){value='输入搜索内容';changeColor();}" >
+			<a onclick="if(document.getElementById('searchbar').value!='输入搜索内容'){window.open('https://www.ecosia.org/search?q='+document.getElementById('searchbar').value)}">搜&nbsp;索</a>
+		</div>
+		<script>
+			function changeColor() {
+			if(document.getElementById("searchbar").value != "输入搜索内容")
+			{document.getElementById("searchbar").style.color="black";}
+			else{document.getElementById("searchbar").style.color="rgba(128, 128, 128, 0.603)";}
+			}
+		</script>
 
 		<div id="shortcut">
 				<a class="stit"href="https://www.uestc.edu.cn/" target="_blank">

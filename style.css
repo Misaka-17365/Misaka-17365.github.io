@@ -2,11 +2,18 @@
 a{text-decoration: none;color: inherit;}
 /*调试用的边框*/
 *{ border: 1px solid rgba(255, 0, 0, 0);}
+html{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 body{
     display: flex;
     min-width: 800px;
     max-width: 1600px;
+    width: 100%;
     flex-direction: column;
 }
 
@@ -227,28 +234,65 @@ footer>p>a:hover{
 .droplist:hover .dropcontent{
     display: block;
 }
+#search{
+    flex-grow: 1;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#search>input{
+    display: inline-block;
+    height: 60px;
+    width: 50%;
+    border-radius: 10px 0px 0px 10px;
+    border-style: solid none solid solid;
+    border-color: rgb(0, 132, 255);
+    border-width: 3px;
+    font-size: large;
+    padding-left: 20px;
+    color: rgba(128, 128, 128, 0.603);
+    max-width: 800px;
+}
+#search>a{
+    display: inline-block;
+    height: 60px;
+    width: 10%;
+    line-height: 60px;
+    text-align: center;
+    font-size: larger;
+    border-radius: 0px 10px 10px 0px;
+    border-width: 3px;
+    border-color: rgb(0, 132, 255);
+    background-color: rgb(0, 132, 255);
+    color: white;
+    cursor: pointer;
+    max-width: 160px;
+}
 
 #shortcut{
-    margin-top: 40px;
     display: flex;
     align-self: center;
     flex-wrap: wrap;
     justify-content: space-evenly;
     padding: 10px 20px 20px 20px;
+    background-color: rgba(33, 114, 189, 0.281);
 }
 #shortcut>.stit{
     flex-grow: 0;
     flex-shrink: 0;
-    height: 200px;
-    width: 160px;
+    height: 120px;
+    width: 90px;
     margin: 20px;
     text-align: center;
     color: rgb(71, 71, 71);
     border-radius: 10px;
     border-color: rgba(128, 128, 128, 0);
+    font-size: small;
 }
 #shortcut>.stit img{
-    height: 140px;
+    height: 70px;
+    width: 70;
     margin-top: 10px;
 }
 #shortcut>.stit:hover{
