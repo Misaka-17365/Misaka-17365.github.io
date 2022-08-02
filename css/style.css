@@ -113,6 +113,7 @@ body{
 }
 #content>a.block>img{
     height: 150px;
+    width: 110px;
 }
 #content>a.block>p{
     font-size: small;
