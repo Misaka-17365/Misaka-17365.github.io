@@ -254,6 +254,9 @@ footer>p>a:hover{
     color: rgba(128, 128, 128, 0.603);
     max-width: 800px;
 }
+#search>input:focus{
+    outline: none;
+}
 #search>a{
     display: inline-block;
     height: 60px;
