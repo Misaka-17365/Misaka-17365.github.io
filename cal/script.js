@@ -202,7 +202,7 @@ function calculate()
     for(m= 0; m < i; m++)
     {
         for(n = 0; n < j;n++){
-            if(math.evaluate(math.format(mat[m][n])!=0)){
+            if(!(math.equal(mat[m][n],0))){
                 rank++;
                 break;
             }
