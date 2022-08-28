@@ -1,3 +1,8 @@
+// 导入 math.js 库
+const config = { number: "Fraction"}
+
+
+
 // global var
 i = null;
 j = null;
@@ -149,7 +154,7 @@ function submit()
     if(flag==1){
         for(m = 0; m < i; m++){
             for(n = 0; n < j; n++){
-                mat[m][n] = Number(document.getElementById(""+m+""+n).value);
+                mat[m][n] = math.fraction(document.getElementById(""+m+""+n).value);
             }
         }
     }
@@ -161,11 +166,11 @@ function calculate()
 {
     for (n = 0; n < i; n++)
     {
-        if (mat[n][n] == 0)							// 如果这一行的首元是0
+        if (math.evaluate(math.format(mat[n][n]) == 0))							// 如果这一行的首元是0
         {
             for (m = n + 1; m < i; m++)		// 找到非零的一行
             {
-                if (mat[m][n] == 0)
+                if (math.evaluate(math.format(mat[m][n] == 0)))
                     {
                         continue;
                     }
@@ -178,16 +183,18 @@ function calculate()
                 }
             }
         }
-
+        if(math.equal(mat[n][n] , 0)){continue;}
 
         for (m = n + 1; m < i; m++)					// 按照比例相减
         {
-            if(mat[m][n] == 0){continue;}
+            if(math.evaluate(math.format(mat[m][n]) == 0)){continue;}
 
-            k = mat[m][n] / mat[n][n];
+            k = math.divide(mat[m][n], mat[n][n]);
             for (place = n; place < j; place++)
             {
-                mat[m][place] -= k * mat[n][place];
+            //     // mat[m][place] = math.evaluate(k * mat[n][place] - mat[m][place]);
+                t =  math.multiply(k, mat[n][place]);
+                mat[m][place] = math.subtract(mat[m][place], t);
             }
         }
     }
@@ -195,7 +202,7 @@ function calculate()
     for(m= 0; m < i; m++)
     {
         for(n = 0; n < j;n++){
-            if(mat[m][n]!=0){
+            if(math.evaluate(math.format(mat[m][n])!=0)){
                 rank++;
                 break;
             }
@@ -203,10 +210,10 @@ function calculate()
     }
     if(i==j)
     {
-        determinant = 1;
+        determinant = math.fraction("1");
         for(t = 0; t < i; t++){
             trace[t] = mat[t][t];
-            determinant *=trace[t];
+            determinant = trace[t] * determinant;
         }
     }
 }
@@ -217,7 +224,7 @@ function showResult()
     re.style.display = "flex";
     document.getElementById("rank").innerHTML ="秩为"+rank;
     if(determinant != null){
-    document.getElementById("determinant").innerHTML = "行列式为"+determinant;
+    document.getElementById("determinant").innerHTML = "行列式为"+math.format(determinant);
     }
 
 }
