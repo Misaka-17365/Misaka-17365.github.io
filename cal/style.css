@@ -12,11 +12,11 @@ input:focus{
 
 #pre{
     display: flex;
-    /*************debug*******************
-
-    display: none;
+    /*************debug********************/
+    /*
+    display: none;*/
     
-    */
+    
     
     height: 100%;
     background-color: rgb(219, 219, 219);

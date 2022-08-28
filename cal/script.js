@@ -149,7 +149,7 @@ function submit()
     if(flag==1){
         for(m = 0; m < i; m++){
             for(n = 0; n < j; n++){
-                mat[m][n] = document.getElementById(""+m+""+n).value;
+                mat[m][n] = Number(document.getElementById(""+m+""+n).value);
             }
         }
     }
@@ -206,7 +206,7 @@ function calculate()
         determinant = 1;
         for(t = 0; t < i; t++){
             trace[t] = mat[t][t];
-            determinant *= trace[t];
+            determinant *=trace[t];
         }
     }
 }
@@ -221,3 +221,21 @@ function showResult()
     }
 
 }
+
+document.addEventListener("keydown",function(){
+    if(event.keyCode!=13){return;}
+    this_id = document.activeElement.id;
+    if(!(/\b^\d*$\b/.test(this_id))){return;}
+    this_id_s = this_id.split("");
+    if(this_id_s[0] < 0 || this_id_s[0] >= i || this_id_s[1] < 0 || this_id_s[2] >= j){return;}
+    if(this_id == ""+ (i-1) + (j-1)){this.getElementById("conform").focus();return;}
+    if(this_id_s[1]==j-1){
+        this_id_s[0]++;
+        this_id_s[1] = 0;
+        document.getElementById(this_id_s[0] + "" + this_id_s[1]).focus();
+    }else{
+        this_id = this_id_s[0] + "" + ( Number(this_id_s[1]) + 1);
+        this.getElementById(this_id).focus();
+    }
+    
+})
