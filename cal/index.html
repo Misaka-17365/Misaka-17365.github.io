@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh" style="height: 99%;">
+
+<head>
+    <title>test</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="script.js" type="text/javascript"></script>
+</head>
+<body style="height: 100%;">
+    <div id="pre">
+        <div id="window">
+            <h1>选择矩阵的行数和列数</h1>
+            <main>
+                <div>
+                    <div id="l_u" onclick="nar_click('line', 0)"></div>
+                    <input value="行" id="line" onfocus="line_input_onfocus(this)" onblur="line_input_onblur(this)">
+                    <div id="l_d" onclick="nar_click('line', 1)"></div>
+                </div>
+                <span>&times;</span>
+                <div>
+                    <div id="r_u" onclick="nar_click('column', 0)"></div>
+                    <input value="列" id="column" onfocus="column_input_onfocus(this)" onblur="column_input_onblur(this)">
+                    <div id="r_d" onclick="nar_click('column', 1)"></div>
+                </div>
+            </main>
+            <button type="button" onclick="submit_line_column(this)">确 定</button>
+        </div>
+
+    </div>
+    <main id="main">
+        <!-- <button onclick="a()">测试</button> -->
+        <div id="mat_table"></div>
+        <p id="in_err" style="color: red;padding:8px;display: none;">! 元素不能为空</p>
+        <div id="tool">
+            <button onclick="fixZero()">空位补 0</button>            
+            <button onclick="clearAll()">清空</button>
+            <button id="conform" onclick="submit()">确定</button>
+        </div>
+        <div id="result">
+            <div id="mat_result">
+                <div class="resut_line">
+
+                </div>
+            </div>
+            <p id="rank">秩为</p>
+            <p id="determinant">行列式为</p>
+        </div>
+    </main>
+</body>
+</html>
