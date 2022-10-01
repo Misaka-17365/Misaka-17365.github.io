@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>STM32F401CCU6 使用手册</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="../CodeHighLight/stackoverflow-dark.min.css"/>
+    <link rel="stylesheet" href="../style.css"/>
+    <script src="../jQuery/script.js"></script>
+    <script src="../CodeHighLight/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <h1>STM32F401CCU6 使用手册</h1>
+    </nav>
+    <div class="line"></div>
+    <div  style="display: flex;flex-direction:row;">
+    <!-- 侧边栏：用于分类存放不同的函数，提供索引 -->
+    <div id="side_bar">
+        <script>
+            $("#side_bar").load("../side_bar.html");
+        </script>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <main>
+        <h2>点亮第一个LED</h2>
+        <P>在MDK中输入以下代码</P>
+        <pre>
+            <code>
+#include "stm32f4xx.h"
+
+int main(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+
+    GPIO_InitStructure.GPIO_Pin     = GPIO_Pin_13;
+    GPIO_InitStructure.GPIO_Mode    = GPIO_Mode_OUT;
+    GPIO_InitStructure.GPIO_OType   = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_Speed   = GPIO_Speed_2MHz;
+    GPIO_InitStructure.GPIO_PuPd    = GPIO_PuPd_NOPULL;
+
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+    GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+
+    while(1){
+        ;
+    }
+}
+            </code>
+        </pre>
+        <p>点击复位按钮，板上的灯亮起，程序运行成功。</p>
+        <P>在下面的章节将详细介绍以上示例中使用的函数。</P>
+    </main>
+</body>
+</html>
