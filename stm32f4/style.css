@@ -54,6 +54,9 @@ nav>h1 {
     flex-shrink: 0;
     border-right: 1px solid black;
 }
+#side_bar>ul{
+    padding: 10px 10px 10px 30px;
+}
 #side_bar>ul>li{
     list-style: none;
     margin: 4px;
