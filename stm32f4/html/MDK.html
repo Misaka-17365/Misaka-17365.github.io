@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>STM32F401CCU6 使用手册</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/CodeHighLight/vs2015.min.css"/>
+    <link rel="stylesheet" href="/style.css"/>
+    <script src="/jQuery/script.js"></script>
+    <script src="/CodeHighLight/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <h1>STM32F401CCU6 使用手册</h1>
+    </nav>
+    <div class="line"></div>
+    <div  style="display: flex;flex-direction:row;">
+    <!-- 侧边栏：用于分类存放不同的函数，提供索引 -->
+    <div id="side_bar">
+        <script>
+            $("#side_bar").load("/side_bar.html");
+        </script>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <main>
+        <h2>配置 Keil MDK 开发环境</h2>
+        <h3>软件和资源包的准备</h3>
+        <p>MDK的安装和注册参考<a href="https://misaka-17365.github.io/keil-install/" class="inline_a">这里</a>，注意，只需要进行到<em> Step 9 </em>就可以了。</p>
+        <p>安装完成后，安装<em>STM32F401CCU6</em>的资源包，进入<a href="https://www.keil.com/dd2/pack/" class="inline_a">Keil MDK5 官网</a>，找到<em> STM32F4 Series </em>，点击右侧下载，下载完成后双击即可开始安装。</p>
+        <p>还需要配置 <a class="inline_a" href="https://www.st.com/zh/embedded-software/stsw-stm32065.html#st-get-software">ST 官方提供的标准库文件</a>，找到最下面的获取。下载完成后解压，里面的文件在下面配置模板工程会用到。</p>
+        <p class="ps">ST 官网下载需要填写正确的邮箱，在邮箱中的链接中下载。</p>
+
+        <div class="main_line"></div>
+        <h2>配置模板工程</h2>
+        <p>使用标准库进行开发，需要将标准库里的文件包含进入项目中。</p>
+        <h3>建立新的空工程</h3>
+        <p>打开 MDK，点击<em>Project -> new uVision Project...</em>，选择一个放置工程文件的位置，这里新建文件夹，命名为 template ，打开这个文件夹，在下方文件名输入 project，点击保存。</p>
+        <p>在弹出的窗口选择 <em>STMicroelectrons -> STM32F4 Series -> STM32F401 -> STM32F401CC -> STM32F401CCUx</em>，点击 OK 。</p>
+        <p>弹出的窗口点击 Cancel。</p>
+        <p>空工程建立完成。</p>
+
+        <h3>向空工程中添加必要的启动文件</h3>
+        <p>在刚刚新建的<em>template</em>文件夹中新建文件夹<em>StartUp</em>，将标准库里的<em>\Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm</em>里的<em>startup_stm32f401xx.s</em>复制进<em>StartUp</em>文件夹。</p>
+        <p>将<em>\Libraries\CMSIS\Device\ST\STM32F4xx\Include</em>文件夹下的<em>stm32f4xx.h</em>和<em>system_stm32f4xx.h</em>复制到<em>StartUp</em>文件夹。</p>
+        <p>将<em>\Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates</em>文件夹下的<em>system_stm32f4xx.c</em>复制到<em>StartUp</em>文件夹。</p>
+        <p>将<em>\Libraries\CMSIS\Include</em>文件夹下的<em>core_cm4.h</em>复制到<em>StartUp</em>文件夹。</p>
+        <p class="ps">到这一步，可以用直接操作寄存器的方式控制单片机。</p>
+
+        <h3>向工程添加标准库文件</h3>
+    </main>
+</body>
+</html>

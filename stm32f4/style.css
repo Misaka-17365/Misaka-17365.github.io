@@ -1,0 +1,75 @@
+/***************************************************/
+/*全局外观*/
+html {
+    background-color: rgb(182, 182, 182);
+    min-width: 1000px;
+}
+*{
+    border: 1px rgba(255, 0, 0, 0) solid;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    text-decoration: underline;
+    color: rgb(61, 131, 90);
+}
+
+a.inline_a{
+    text-decoration: underline;
+    color: rgb(15, 172, 172);
+}
+em{
+    text-decoration: underline;
+}
+em::after{
+    content: " ";
+}
+em::before{
+    content: " ";
+}
+div.line{
+    width: 100%;
+    display: block;
+    border: 1px solid black;
+}
+div.main_line{
+    width: 100%;
+    display: block;
+    border: 1px solid rgb(119, 119, 119);
+    border-width: 1px 0px 0px 0px;
+}
+/***************************************************/
+/*导航栏和侧边栏*/
+nav>h1 {
+    margin: 20px;
+    font-size: xx-large;
+    font-weight: 400;
+}
+#side_bar{
+    margin: 10px;
+    flex-grow: 0;
+    width: 200px;
+    flex-shrink: 0;
+    border-right: 1px solid black;
+}
+#side_bar>ul>li{
+    list-style: none;
+    margin: 4px;
+}
+/***************************************************/
+/*主体外观*/
+main{
+    flex-grow: 7;
+}
+code {
+    flex-grow:1;
+    margin: 8px;
+    border-radius: 5px;
+}
+p.ps{
+    text-decoration: underline;
+    font-style: italic;
+    color: gray;
+}
