@@ -2,10 +2,14 @@
 /*全局外观*/
 html {
     background-color: rgb(223, 221, 221);
-    min-width: 1000px;
+    min-width: 1200px;
 }
 *{
     border: 1px rgba(255, 0, 0, 0) solid;
+}
+body{
+    margin-left: auto;
+    margin-right: auto;
 }
 a{
     text-decoration: none;
@@ -75,4 +79,47 @@ p.ps{
     text-decoration: underline;
     font-style: italic;
     color: gray;
+}
+span.param{
+    color: rgb(43, 130, 151);
+    font-weight: 800;
+    font-style: italic;
+}
+span.param::before{
+    content: "@Param ";
+    color: rgb(153, 3, 133);
+    font-weight: 800;
+    font-style: italic;
+}
+span.param::after{
+    content: " : ";
+    color: rgb(153, 3, 133);
+    font-weight: 800;
+    font-style: italic;
+}
+span.re{
+    color: rgb(43, 130, 151);
+    font-weight: 800;
+    font-style: italic;
+}
+span.re::before{
+    content: "@retval ";
+    color: rgb(3, 153, 66);
+    font-weight: 800;
+    font-style: italic;
+}
+span.re::after{
+    content: " : ";
+    color: rgb(3, 153, 66);
+    font-weight: 800;
+    font-style: italic;
+}
+pre{
+    tab-size: 2em;
+    font-size: large;
+}
+main>h3{
+    border: 1px solid gray;
+    border-width: 1px 0px 0px 0px;
+    padding-top: 20px;
 }
