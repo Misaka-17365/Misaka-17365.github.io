@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>STM32F401CCU6 使用手册</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../style.css" />
+    <script src="../jQuery/script.js"></script>
+    <!-- 
+    <script>var a = $("<a href='html/LED.html' target='_self' >test</a>").get(0);
+        var e = document.createEvent('MouseEvents');
+        e.initEvent('click', true, true);
+        a.dispatchEvent(e);</script> -->
+    <style>
+        #side_bar {
+            flex-shrink: 0;
+            flex-grow: 7;
+            text-align: left;
+            display: block;
+            width: auto;
+        }
+
+        #side_bar>ul {
+            padding: 0px;
+        }
+        div.re_top{
+            display: none;
+        }
+        #left_block{
+            flex-shrink:3;
+            flex-grow:3;
+            border: 1px solid gray;
+            border-width: 0px 1px 0px 0px;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <h1 id="top">STM32F401CCU6 使用手册</h1>
+    </nav>
+    <div class="line"></div>
+    <p class="ps" style="display: block;text-align: center;">求人不如求己。找不到资料，就自己创造资料。</p>
+    <div style="display: flex;flex-direction:row;">
+        <div id="left_block"></div>
+        <div id="side_bar">
+            <script>
+                $("#side_bar").load("../side_bar.html");
+            </script>
+        </div>
+    </div>
+
+</body>
+
+</html>

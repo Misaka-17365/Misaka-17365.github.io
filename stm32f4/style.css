@@ -60,15 +60,24 @@ nav>h1 {
 }
 #side_bar>ul{
     padding: 10px 10px 10px 30px;
+    position: sticky;
+    top: 80px;
 }
 #side_bar>ul>li{
     list-style: none;
     margin: 4px;
+    padding: 4px;
+}
+#side_bar>ul>li.line{
+    display: block;
+    border: 1px solid rgb(187, 187, 187);
+    border-width: 0px 0px 1px 0px;
+    max-width: 300px;
 }
 div.re_top{
-    position: sticky;
-    top: 80px;
     text-align: center;
+    position: sticky;
+    top: 240px;
 }
 /***************************************************/
 /*主体外观*/
