@@ -5,7 +5,7 @@ html {
     min-width: 1200px;
 }
 *{
-    border: 1px rgb(255, 0, 0) solid;
+    border: 1px rgba(255, 0, 0, 0) solid;
 }
 body{
     margin-left: auto;
