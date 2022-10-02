@@ -5,7 +5,7 @@ html {
     min-width: 1200px;
 }
 *{
-    border: 1px rgba(255, 0, 0, 0) solid;
+    border: 1px rgb(255, 0, 0) solid;
 }
 body{
     margin-left: auto;
@@ -64,6 +64,11 @@ nav>h1 {
 #side_bar>ul>li{
     list-style: none;
     margin: 4px;
+}
+div.re_top{
+    position: sticky;
+    top: 80px;
+    text-align: center;
 }
 /***************************************************/
 /*主体外观*/
