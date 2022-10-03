@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>STM32F401CCU6 使用手册</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../CodeHighLight/stackoverflow-dark.min.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <script src="../jQuery/script.js"></script>
+    <script src="../CodeHighLight/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <h1 id="top">STM32F401CCU6 使用手册</h1>
+    </nav>
+    <div class="line"></div>
+    <div style="display: flex;flex-direction:row;">
+        <!-- 侧边栏：用于分类存放不同的函数，提供索引 -->
+        <div id="side_bar">
+            <script>
+                $("#side_bar").load("../side_bar.html");
+            </script>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <main>
+            <h2>EXTI 外部中断</h2>
+            <p>STM32F401CCU6 共有 24 个外部中断，其中中断 0 ~ 15 可由 GPIO 配置，中断 16 ~ 23 连接到特定的外设上，实现外设的一些特殊功能。</p>
+            <p class="ps">这里主要列出通过 GPIO 来配置外部中断的方式。</p>
+            <p>开启外部中断，需要开启的时钟：</p>
+            <pre><code>
+// 开启使用的 GPIO 的时钟
+RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);
+// 开启 AF 的时钟
+RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+        </code></pre>
+            <p>需要将 GPIO 设定为输入模式：</p>
+            <pre><code>
+GPIO_InitTypeDef GPIO_InitStructure;
+GPIO_InitStructure.GPIO_Mode    = GPIO_Mode_IN;
+GPIO_InitStructure.GPIO_OType   = GPIO_OType_OD;
+GPIO_InitStructure.GPIO_Pin     = GPIO_Pin_x;
+GPIO_InitStructure.GPIO_PuPd    = GPIO_PuPd_NOPULL;
+GPIO_InitStructure.GPIO_Speed   = GPIO_Speed_50MHz;
+GPIO_Init(GPIOx, &GPIO_InitStructure);
+        </code></pre>
+
+            <h3>EXTI 结构</h3>
+            <p> GPIO Pin 0 ~ 15 通过 AF 选择器输送到外部中断线 EXTI 0 ~ 15 。</p>
+            <p><img src="https://img-blog.csdnimg.cn/20200227220818845.png" /></p>
+            <p>外部中断线 EXTI 0 ~ 23 进入中断控制。</p>
+            <p class="ps">由图右下角输入。</p>
+            <P class="ps">更正：图中线上‘20’应改为‘24’，表示24根线。</P>
+            <p><img src="https://img-blog.csdnimg.cn/2020022721000191.png" /></p>
+
+            <p
+                style="font-size: large;color: rgb(206, 209, 3);background-color: black;padding: 8px;border-radius: 4px;">
+                EXTI 的路径为：<em>GPIO引脚 -> AFIO 配置 -> EXTI 配置 -> NVIC 中断优先级控制 -> 内核执行</em></p>
+            <p>由于多个端口的同名引脚连接到了同一个选择器上，因此配置外部中断的时候，同一个 Pin 只能使用一个。</p>
+            <p>触发方式可以分为：<em>上升沿触发，下降沿触发，双边缘触发，事件触发</em>。</p>
+            <p>外部触发可以选择<em>触发中断</em>和<em>触发事件</em>。</p>
+            <p>中断优先级有两类: <em>抢占优先级</em>和<em>响应优先级</em>。</p>
+            <p><em>抢占优先级</em>：优先级高的可以打断当前正在进行的任务，执行中断。</p>
+            <p><em>响应优先级</em>：优先级高的可以优先被处理（不能抢占任务）。</p>
+            <p>优先级配置中，<em style="color: red;">数值越小，优先级越大</em>。</p>
+            <p>中断函数的函数名是<em style="color: red;">固定的</em>，函数名在<em>startup_stm32f401xx.s</em>文件里。</p>
+
+            <h3>EXTI 基本操作流程</h3>
+            <p>将 GPIOC-14 作为外部触发源。</p>
+            <pre><code class="Cpp">
+int main(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+    EXTI_InitTypeDef EXTI_InitStructure;
+    NVIC_InitTypeDef NVIC_InitStructure;
+
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+
+    SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOC, GPIO_PinSource14);
+
+    GPIO_InitStructure.GPIO_Mode    = GPIO_Mode_IN;
+    GPIO_InitStructure.GPIO_OType   = GPIO_OType_OD;
+    GPIO_InitStructure.GPIO_Pin     = GPIO_Pin_14;
+    GPIO_InitStructure.GPIO_PuPd    = GPIO_PuPd_UP;
+    GPIO_InitStructure.GPIO_Speed   = GPIO_Speed_50MHz;
+
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+    EXTI_InitStructure.EXTI_Line        = EXTI_Line14;
+    EXTI_InitStructure.EXTI_LineCmd     = ENABLE;
+    EXTI_InitStructure.EXTI_Mode        = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger     = EXTI_Trigger_Falling;
+
+    EXTI_Init(&EXTI_InitStructure);
+
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    NVIC_InitStructure.NVIC_IRQChannel                      = EXTI15_10_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelCmd                   = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority    = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority           = 1;
+
+    NVIC_Init(&NVIC_InitStructure);
+
+    while(1);
+}
+
+void EXTI15_10_IRQHandler(void)
+{
+	if(EXTI_GetITStatus(EXTI_Line14) == SET){
+		
+		EXTI_ClearITPendingBit(EXTI_Line14);
+	}
+}
+            </code></pre>
+            <div class="main_line"></div>
+            <h2>AFIO 配置</h2>
+            <p>首先开启时钟。</p>
+            <p class="ps">SYSCFG 在 APB2 总线上。</p>
+            <pre><code>
+RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+        </code></pre>
+            <p>将 GPIO 的引脚设定为外部触发源。</p>
+            <pre><code>
+SYSCFG_EXTILineConfig(uint8_t EXTI_PortSourceGPIOx, uint8_t EXTI_PinSourcex);
+        </code></pre>
+            <p><span class="param">EXTI_PortSourceGPIOx</span>外部触发选用的 GPIO 端口</p>
+            <p><span class="param">EXTI_PinSourcex</span>外部触发选用的引脚</p>
+            <p class="ps">设定好引脚之后会自动连接到外部中断线上，无需手动设置。</p>
+            <p>示例：</p>
+            <pre><code>
+// 将 GPIOA-10 接到 EXTI 10 上
+SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA, EXTI_PinSource10);
+        </code></pre>
+
+            <div class="main_line"></div>
+            <h2>EXTI 配置</h2>
+            <h3>配置状态结构体</h3>
+            <pre><code>
+typedef struct
+{
+    uint32_t E              XTI_Line;       // 选定的触发线    
+    EXTIMode_TypeDef        EXTI_Mode;      // 触发模式
+    EXTITrigger_TypeDef     EXTI_Trigger;   // 触发沿
+    FunctionalState         EXTI_LineCmd;   // 触发线控制
+}EXTI_InitTypeDef;
+        </code></pre>
+            <p class="brief">该结构体用于设定 EXTI 的状态。</p>
+            <p><span class="param">EXTI_Line</span><em>EXTI_Line0 ~ EXTI_Line23</em></p>
+            <p><span class="param">EXTI_Mode</span><em>EXTI_Mode_Interrupt, EXTI_Mode_Event</em></p>
+            <p><span class="param">EXTI_Trigger</span><em>EXTI_Trigger_Rising, EXTI_Trigger_Falling,
+                    EXTI_Trigger_Rising_Falling</em></p>
+            <p><span class="param">EXTI_LineCmd</span><em>ENABLE, DISABLE</em></p>
+
+            <h3>复位 EXTI</h3>
+            <pre><code>
+void EXTI_DeInit(void);
+            </code></pre>
+            <p class="brief">将 EXTI 恢复到默认配置</p>
+            <p>示例：</p>
+            <pre><code>
+// 复位 EXTI
+EXTI_DeInit();
+            </code></pre>
+
+            <h3>EXTI 初始化</h3>
+            <pre><code>
+void EXTI_Init(EXTI_InitTypeDef* EXTI_InitStructure);
+            </code></pre>
+            <p class="brief">将结构体的配置应用到 EXTI 上</p>
+            <P><span class="param">EXTI_InitStructure</span>EXTI 配置状态结构体指针</P>
+            <p>示例：</p>
+            <pre><code class="Cpp">
+// 将 EXTI Line10 设定为下降沿触发，触发中断
+EXTI_InitTypeDef EXTI_InitStructure;
+EXTI_InitStructure.EXTI_Line        = EXTI_Line10;
+EXTI_InitStructure.EXTI_Mode        = EXTI_Mode_Interrupt;
+EXTI_InitStructure.EXTI_Trigger     = EXTI_Trigger_Falling;
+EXTI_InitStructure.EXTI_LineCmd     = ENABLE;
+EXTI_Init(&EXTI_InitStructure);
+            </code></pre>
+
+            <h3>初始化 EXTI_InitStructure</h3>
+            <pre><code>
+void EXTI_StructureInit(EXTI_InitTypeDef* EXTI_InitStructure);
+            </code></pre>
+            <p class="brief">将 EXTI 配置结构体进行默认初始化</p>
+            <P><span class="param">EXTI_InitStructure</span>EXTI 配置状态结构体指针</P>
+            <p>示例：</p>
+            <pre><code>
+EXTI_InitTypeDef EXTI_InitStructure;
+EXTI_StructureInit(&EXTI_InitStructure);
+            </code></pre>
+
+            <h3>生产软件触发</h3>
+            <pre><code>
+void EXTI_GenerateSWInterrupt(uint32_t EXTI_Line);
+            </code></pre>
+            <p class="brief">程序模拟触发。</p>
+            <P><span class="param">EXTI_Line</span><em>EXTI_Line 23 ~ EXTI_Line 0</em></P>
+            <p>示例：</p>
+            <pre><code>
+// 模拟触发 EXTI_Line10
+EXTI_GenerateSWInterrupt(EXTI_Line_10);
+            </code></pre>
+
+            <h3>检查中断线标志位</h3>
+            <pre><code>
+FlagStatus EXTI_GetFlagStatus(uint32_t EXTI_Line);
+        </code></pre>
+            <p class="brief">检查中断线标志位是否置位。</p>
+            <P><span class="param">EXTI_Line</span><em>EXTI_Line 23 ~ EXTI_Line 0</em></P>
+            <p><span class="re"></span>SET, RESET</p>
+            <p>示例：</p>
+            <pre><code>
+// 检查 EXTI_Line0 的标志位
+EXTI_GetFlagStatus(EXTI_Line0);
+        </code></pre>
+
+            <h3>清空中断线标志位</h3>
+            <pre><code>
+void EXTI_ClearFlag(uint32_t EXTI_line);
+            </code></pre>
+            <p class="brief">清空标志位 。</p>
+            <P><span class="param">EXTI_Line</span><em>EXTI_Line 23 ~ EXTI_Line 0</em></P>
+            <p>示例：</p>
+            <pre><code>
+// 清空 EXTI_Line0 的标志位
+EXTI_ClearFlag(EXTI_Line0);
+            </code></pre>
+
+            <h3>检查中断线是否触发</h3>
+            <pre><code>
+ITStatus EXTI_GetITStatus(uint32_t EXTI_line);
+            </code></pre>
+            <p class="brief">检查该中断线是否被触发</p>
+            <P><span class="param">EXTI_Line</span><em>EXTI_Line 23 ~ EXTI_Line 0</em></P>
+            <p>示例：</p>
+            <pre><code>
+// 检查 EXTI_Line0 是否触发
+EXTI_GetITStatus(EXTI_Line0);
+            </code></pre>
+
+            <h3>清空中断挂起标志位</h3>
+            <pre><code>
+void EXTI_ClearITPendingBit(uint32_t EXTI_Line);
+            </code></pre>
+            <p class="brief">中断函数不会再次执行。</p>
+            <P><span class="param">EXTI_Line</span><em>EXTI_Line 23 ~ EXTI_Line 0</em></P>
+            <p>示例：</p>
+            <pre><code>
+// 清空 EXTI_Line0 中断挂起标志位
+EXTI_ClearITPendingBit(EXTI_Line0);
+            </code></pre>
+
+            <div class="main_line"></div>
+            <h2>配置 NVIC</h2>
+            <h3>状态配置结构体</h3>
+            <pre><code>
+typedef struct
+{
+    uint8_t NVIC_IRQChannel;                    // 选择中断请求的线路         
+    uint8_t NVIC_IRQChannelPreemptionPriority;  // 设置抢占优先级
+    uint8_t NVIC_IRQChannelSubPriority;         // 设置响应优先级
+    FunctionalState NVIC_IRQChannelCmd;         // 设置使能
+} NVIC_InitTypeDef;
+            </code></pre>
+
+            <h3>设定 NVIC 的优先级分组</h3>
+            <pre><code>
+void NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup);
+            </code></pre>
+            <p><span class="param">NVIC_PriorityGourp</span><em>NVIC_PriorityGourp_0, NVIC_PriorityGourp_1, NVIC_PriorityGourp_3, NVIC_PriorityGourp_3, NVIC_PriorityGourp_4</em></p>
+            <pre><code>
+@arg NVIC_PriorityGroup_0:  0 bits for pre-emption priority | 4 bits for subpriority
+@arg NVIC_PriorityGroup_1:  1 bits for pre-emption priority | 3 bits for subpriority
+@arg NVIC_PriorityGroup_2:  2 bits for pre-emption priority | 2 bits for subpriority
+@arg NVIC_PriorityGroup_3:  3 bits for pre-emption priority | 1 bits for subpriority
+@arg NVIC_PriorityGroup_4:  4 bits for pre-emption priority | 0 bits for subpriority
+            </code></pre>
+            <p>示例：</p>
+            <pre><code>
+// 将 NVIC 设置为：1位抢占优先级，3位响应优先级
+NVIC_PriorityGroupConfig(NVIC_PriorityGourp_1);
+            </code></pre>
+
+            <h3>初始化 NVIC</h3>
+            <pre><code>
+void NVIC_Init(NVIC_InitTypeDef* NVIC_InitStructure);
+            </code></pre>
+            <p><span class="param">NVIC_InitStructure</span>状态配置结构体指针</p>
+            <p>示例：</p>
+            <pre><code class="Cpp">
+// 设置 EXTI_Line0 触发中断
+NVIC_InitTypeDef NVIC_InitStructure;
+NVIC_InitStructure.NVIC_IQRChannel = EXTI0_IRQn;
+NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+NVIC_Init(&NVIC_InitStructure);
+            </code></pre>
+            <h3>设置中断向量表</h3>
+            <pre><code>
+void NVIC_SetVectorTable(uint32_t NVIC_VectTab, uint32_t Offset);
+            </code></pre>
+
+            <h3>中断触发低功耗模式</h3>
+            <pre><code>
+void NVIC_SystemLPConfig(uint8_t LowPowerMode, FunctionalState NewState);
+            </code></pre>
+
+            <div class="main_line"></div>
+            <h2>至此，外部中断的所有函数都已列出。</h2>
+
+        
+        </main>
+    </div>
+</body>
+
+</html>

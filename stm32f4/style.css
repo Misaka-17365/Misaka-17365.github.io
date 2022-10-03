@@ -41,7 +41,7 @@ div.line{
 div.main_line{
     width: 100%;
     display: block;
-    border: 1px solid rgb(119, 119, 119);
+    border: 1px solid rgb(58, 58, 58);
     border-width: 1px 0px 0px 0px;
 }
 /***************************************************/
@@ -54,7 +54,7 @@ nav>h1 {
 #side_bar{
     margin: 10px;
     flex-grow: 0;
-    width: 200px;
+    width: 240px;
     flex-shrink: 0;
     border-right: 1px solid black;
 }
@@ -94,6 +94,17 @@ p.ps{
     font-style: italic;
     color: gray;
 }
+p.brief{
+    background-color: rgb(201, 201, 201);
+    padding: 16px 0px;
+}
+p.brief::before{
+    content: "@Brief ";
+    font-weight: 800;
+    font-style: italic;
+    color: rgb(14, 151, 55);
+    margin-right: 8px;
+}
 span.param{
     color: rgb(43, 130, 151);
     font-weight: 800;
@@ -111,20 +122,15 @@ span.param::after{
     font-weight: 800;
     font-style: italic;
 }
-span.re{
-    color: rgb(43, 130, 151);
-    font-weight: 800;
-    font-style: italic;
-}
 span.re::before{
     content: "@retval ";
-    color: rgb(3, 153, 66);
+    color: rgb(3, 26, 153);
     font-weight: 800;
     font-style: italic;
 }
 span.re::after{
     content: " : ";
-    color: rgb(3, 153, 66);
+    color: rgb(3, 26, 153);
     font-weight: 800;
     font-style: italic;
 }

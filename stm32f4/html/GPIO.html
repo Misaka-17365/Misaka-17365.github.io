@@ -39,6 +39,27 @@ RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);
 
             <div class="main_line"></div>
 
+            <h2>GPIO 基本操作流程</h2>
+            <p class="ps">某些旧的编译器必须把变量声明放在函数体最前端，这时需要把  GPIO_InitTypeDef GPIO_InitSructure; 放在第一行。</p>
+            <p class="ps">将 GPIOx 更换为需要 设定的 GPIO 。</p>
+            <pre><code>
+// 首先开启时钟
+RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);
+// 声明一个端口状态结构体
+GPIO_InitTypeDef GPIO_InitSructure;
+// 设置结构体的值
+GPIO_InitSructure.GPIO_Pin      = GPIO_Pin_12;      // 设置第12号引脚
+GPIO_InitSructure.GPIO_Mode     = GPIO_Mode_OUT;    // 设置为输出模式
+GPIO_InitSructure.GPIO_Speed    = GPIO_Speed_2MHz;  // 设置引脚最大切换速度2MHz
+GPIO_InitSructure.GPIO_PuPd     = GPIO_PuPd_NOPULL; // 不进行上拉和下拉
+GPIO_InitSructure.GPIO_OType    = GPIO_OType_PP;    // 设置推挽输出模式
+// 应用设置到 GPIOx 上
+GPIO_Init(GPIOx, &GPIO_InitSructure);
+
+            </code></pre>
+
+            <div class="main_line"></div>
+
             <h2>GPIO 数据类型</h2>
             <h3>端口状态结构体</h3>
             <pre><code>
@@ -50,7 +71,7 @@ typedef struct{
     GPIOOType_TypeDef   GPIO_OType;     // 设置管脚输出类型
 }GPIO_InitTypeDef;
         </code></pre>
-            <p>该结构体用于设定GPIO的状态。</p>
+            <p class="brief">该结构体用于设定 GPIO 的状态。</p>
             <p><span class="param">GPIO_Pin</span><em>GPIO_Pin_0 ~ GPIO_Pin_15, GPIO_Pin_All</em></p>
             <P><span class="param">GPIO_Mode</span><em>GPIO_Mode_IN, GPIO_Mode_OUT, GPIO_Mode_AF,
                     GPIO_Mode_AN</em></P>
@@ -69,7 +90,7 @@ typedef struct{
             <pre><code>
 void GPIO_DeInit(GPIO_TypeDef* GPIOx);
         </code></pre>
-            <p>该函数将选中的端口设置为默认状态<em>(DISABLE)</em></p>
+            <p class="brief">该函数将选中的端口设置为默认状态<em>(DISABLE)</em></p>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <P>示例：</P>
             <pre><code>
@@ -81,13 +102,12 @@ GPIO_DeInit(GPIOA);
             <Pre><code>
 void GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitSructure);
         </code></Pre>
-            <p>该函数将选中的端口设置为软件设定的状态。</p>
+            <p class="brief">该函数将选中的端口设置为软件设定的状态。</p>
             <p><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></p>
             <P><span class="param">GPIO_InitSructure</span>端口状态结构体指针。</P>
             <p>示例：</p>
             <pre><code>
-//  开启 GPIOA 的时钟信号
-RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+
 // 声明一个端口状态结构体
 GPIO_InitTypeDef GPIO_InitSructure;
 // 设置结构体的值
@@ -105,7 +125,7 @@ GPIO_Init(GPIOA, &GPIO_InitSructure);
             <pre><code>
 void GPIO_StructureInit(GPIO_InitTypeDef* GPIO_InitSructure);
         </code></pre>
-            <p>将传入的结构体设定为默认值。</p>
+            <p class="brief">将传入的结构体设定为默认值。</p>
             <p><em>GPIO_Pin_All, GPIO_Mode_IN, GPIO_Speed_2MHz, GPIO_OType_PP, GPIO_PuPd_NOPULL</em></p>
             <P><span class="param">GPIO_InitSructure</span>端口状态结构体指针</P>
             <P>示例：</P>
@@ -120,7 +140,7 @@ GPIO_StructureInit(&GPIO_InitSructure);
             <pre><code>
 void GPIO_PinLockConfig(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
         </code></pre>
-            <p>直到下次复位之前，设定的管脚的工作模式不可改变。</p>
+            <p class="brief">直到下次复位之前，设定的管脚的工作模式不可改变。</p>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <p><span class="param">GPIO_Pin</span><em>GPIO_Pin_0 ~ GPIO_Pin_15, GPIO_Pin_All</em></p>
             <p>示例：</p>
@@ -133,7 +153,7 @@ GPIO_PinLockConfig(GPIOA, GPIO_Pin_10);
             <pre><code>
 uint8_t GPIO_ReadInputDataBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
         </code></pre>
-            <p>读取单个引脚电平高低。</p>
+            <p class="brief">读取单个引脚电平高低。</p>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <p><span class="param">GPIO_Pin</span><em>GPIO_Pin_0 ~ GPIO_Pin_15, GPIO_Pin_All</em></p>
             <p><span class="re"></span>引脚的值</p>
@@ -148,7 +168,7 @@ value = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_10);
             <pre><code>
 uint16_t GPIO_ReadInputData(GPIO_TypeDef* GPIOx);
         </code></pre>
-            <p>读取整个端口的值。</p>
+            <p class="brief">读取整个端口的值。</p>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <p><span class="re"></span>端口的值</p>
             <p>示例：</p>
@@ -162,7 +182,7 @@ value = GPIO_ReadInputData(GPIOA);
             <pre><code>
 uint8_t GPIO_ReadOutputDataBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
         </code></pre>
-            <p>读取单个引脚电平高低。</p>
+            <p class="brief">读取单个引脚电平高低。</p>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <p><span class="param">GPIO_Pin</span><em>GPIO_Pin_0 ~ GPIO_Pin_15, GPIO_Pin_All</em></p>
             <p><span class="re"></span>引脚的值</p>
@@ -177,7 +197,7 @@ value = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_10);
             <pre><code>
 uint16_t GPIO_ReadOutputData(GPIO_TypeDef* GPIOx);
         </code></pre>
-            <p>读取整个端口的值。</p>
+            <p class="brief">读取整个端口的值。</p>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <p><span class="re"></span>端口的值</p>
             <p>示例：</p>
@@ -217,7 +237,7 @@ GPIO_ResetBits(GPIOA, GPIO_Pin_10);
             <pre><code>
 void GPIO_WriteBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, BitAction BitVal);
         </code></pre>
-            <p>置位或复位指定的引脚。</p>
+            <p class="brief">置位或复位指定的引脚。</p>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <p><span class="param">GPIO_Pin</span><em>GPIO_Pin_0 ~ GPIO_Pin_15, GPIO_Pin_All</em></p>
             <p><span class="param">BitVal</span><em>Bit_RESET, Bit_SET</em></p>
@@ -231,7 +251,7 @@ GPIO_WriteBit(GPIOA, GPIO_Pin_10, Bit_SET);
             <pre><code>
 void GPIO_Write(GPIO_TypeDef* GPIOx, uint16_t PortVal);
         </code></pre>
-            <p>将指定的值写入指定的端口</p>
+            <p class="brief">将指定的值写入指定的端口</p>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <p><span class="param">PortVal</span>无符号 16 位整型值</p>
             <p>示例：</p>
@@ -245,7 +265,7 @@ GPIO_Write(GPIOA, value);
             <pre><code>
 void GPIO_ToggleBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
         </code></pre>
-            <P>对指定的引脚进行取反操作。</P>
+            <P class="brief">对指定的引脚进行取反操作。</P>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <p><span class="param">GPIO_Pin</span><em>GPIO_Pin_0 ~ GPIO_Pin_15, GPIO_Pin_All</em></p>
             <p>示例：</p>
@@ -258,7 +278,7 @@ GPIO_ToggleBits(GPIOA, GPIO_Pin_10);
             <pre><code>
 void GPIO_PinAFConfig(GPIO_TypeDef* GPIOx, uint16_t GPIO_PinSource, uint8_t GPIO_AF);
         </code></pre>
-            <p>将 GPIO 端口设定为其他外设的接口。</p>
+            <p class="brief">将 GPIO 端口设定为其他外设的接口。</p>
             <P><span class="param">GPIOx</span><em>GPIOA, GPIOB, GPIOC, GPIOD, GPIOH</em></P>
             <p><span class="param">GPIO_PinSource</span><em>GPIO_Pin_0 ~ GPIO_Pin_15</em></p>
             <p><span class="param">GPIO_AF</span>参数见下表</p>
