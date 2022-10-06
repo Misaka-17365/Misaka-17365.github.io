@@ -67,12 +67,21 @@ nav>h1 {
     list-style: none;
     margin: 4px;
     padding: 4px;
+    padding-left: 16px;
+}
+#side_bar>ul>li>a{
+    color: rgb(59, 58, 83);
 }
 #side_bar>ul>li.line{
     display: block;
     border: 1px solid rgb(187, 187, 187);
-    border-width: 0px 0px 1px 0px;
+    border-width: 1px 0px 0px 0px;
     max-width: 300px;
+    padding-top: 0px;
+    padding-left: 0px;
+    color: black;
+    font-weight: 600;
+    margin-top: 8px;
 }
 div.re_top{
     text-align: center;
