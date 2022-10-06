@@ -27,8 +27,191 @@
 
     <!-- 主要内容区域 -->
     <main>
-        <h1>待更新</h1>
+        <h2>UART 串口通讯</h2>
+        <h3>串行通信</h3>
+        <p>串行通信，是一种不同设备间进行信息传递的一种方式，区别于<em>并行通信</em>。</p>
+        <p>串行通信</p>
+        <img src="https://pic3.zhimg.com/v2-dbaa25c3a31c891af349df843cf62f6a_b.jpg"/>
+        <pre><code>
+    数据一位一位发送
+    占用的引脚少
+    低频下速度慢
+    高频特性好
+        </code></pre>
+        <p>并行通信</p>
+        <p><img src="https://pic1.zhimg.com/v2-9658bd501c287497f739846e3a0d1f5c_r.jpg"/></p>
+        <pre><code>
+    数据一组一组发送，1 ~ 4 个字节
+    占用引脚多
+    低频下速度慢
+    高频下容易信号线互相干扰
+        </code></pre>
+        <p>UART 协议是一种串行通讯协议。</p>
+
+        <h3>通信接口</h3>
+        <p>串口，即串行通信接口，是一种物理上的协议。</p>
+        <p>UART 传输数据的方式十分简单，将发端的 TXD 引脚连接到接收端的 RXD 引脚，即可实现发送端到接收端的物理连接。</p>
+        <p class="ps">进行通信的两个设备需要共地。</p>
+        <p><img src="https://pic4.zhimg.com/v2-52f30e097a5b2f00541531b12db8e803_r.jpg"/></p>
+        <p>以上可以实现单向通信，若要实现双向通信，有两种方式：<em>半双工</em>和<em>全双工</em>。</p>
+        <p>半双工模式需要的数据线和单向通信一样，只不过需要引脚复用：同一个引脚即作为发送引脚，右作为接收引脚。这种方式下无法实现同时双向通信。</p>
+        <p><img src="https://pic3.zhimg.com/v2-52cc0e1490d2f9b6f014d7c2fbfa5f1a_r.jpg"/></p>
+        <p>全双工通信，就在接收方引出一条发送引脚，连接到发送端的接收引脚上，这样两条数据线可以同时传输，这样就实现了两台设备同时双向传输数据。</p>
+        <p><img src="https://pic3.zhimg.com/v2-06beab42e7f5f6be43ede63ed948f6a6_r.jpg"/></p>
         
+        <h3>通信协议</h3>
+        <h4>波特率</h4>
+        <p>UART 使用异步通信的方式，这种通信方式没有时钟信号，因此在通信之前需要规定通信的<em title="每秒钟发送的bit数">波特率</em>，常见的波特率有 <em>4800 9600 19200 38400 57600 115200</em>，在使用时，发送和接收设定好相同的波特率即可，没有额外的限制。</p>
+
+        <h4>数据帧格式</h4>
+        <p><img src="https://pic1.zhimg.com/v2-14c40fe451f3e92dae82614606a85b24_r.jpg"/></p>
+        <p>UART 每次发送数据一个字节的数据，发送过程中不需要接收方回应。</p>
+        <p>未进行通讯时，信号线维持高电平，当要发送数据时，发送方将电平拉低一个bit位的时间，表示开始发送。这时将需要发送 的数据按照低位先行的顺序依次写到发送口，发送完一个字节的数据之后，可以写入一位校验位，也可以没有（需要在发射和接收端规定好），最后拉高电平，持续 1 ~ 2 个bit位时间，表示发送结束。</p>
+        <h4>校验位</h4>
+        <p>校验位可以选择以下4中：0校验，1校验，奇校验，偶校验</p>
+        <p>0/1校验：校验位始终是 0/1 （不推荐）</p>
+        <p>奇/偶校验：9 bit 数据中 1 的个数是 奇/偶 数个</p>
+        <p></p>
+        <h3>单片机代码示例</h3>
+        下面用GPIO口模拟 UART 收发数据
+        <pre><code>
+/**
+*   UART 串口收发
+*   波特率 9600
+*   TXD : PA2
+*   RXD : PA3
+*/
+/*
+*   定时逻辑：
+*       开始定时将 is_timer_running 设为 1 ,定时结束后触发中断函数，
+*       将 is_timer_running 设为 0， 用 while 循环检测 is_timer_running ，
+*       检测到 0 ，延时结束
+*
+*/
+// 定时标志位
+int is_timer_running;
+// 定时器和中断初始化
+void timer_init(uint16_t us)
+{
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;
+	
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+	
+	TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV2;
+	TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseInitStructure.TIM_Period = us - 1;
+	TIM_TimeBaseInitStructure.TIM_Prescaler = 72 - 1;
+	TIM_TimeBaseInitStructure.TIM_RepetitionCounter = 0;
+	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseInitStructure);
+	
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+	NVIC_Init(&NVIC_InitStructure);
+	
+	TIM_Cmd(TIM3, ENABLE);
+}
+// 定时器中断函数
+void TIM3_IRQHandler()
+{
+	TIM_ClearITPendingBit(TIM3, TIM_FLAG_Update);
+	TIM_Cmd(TIM3, DISABLE);
+	is_timer_running = 0;
+}
+// 延时函数
+void delay(uint16_t us)
+{
+    is_timer_running = 1;
+	timer_init(us);
+	TIM_Cmd(TIM3, ENABLE);
+	while(is_timer_running);
+}
+// 串口初始化
+void UARTinit()
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	GPIO_SetBits(GPIOA, GPIO_Pin_2);
+}
+// 串口发送
+void UARTsend(uint8_t byte)
+{
+	char tmp, check = 0;
+	
+	// 偶校验
+	for(tmp = 0;tmp < 8;tmp++)
+		{
+			check ^= (byte >> tmp) & 0x01;
+		}		
+	GPIO_ResetBits(GPIOA, GPIO_Pin_2);
+	delay(104);
+	for(tmp = 0;tmp < 8;tmp++)
+	{
+		GPIO_WriteBit(GPIOA, GPIO_Pin_2, (BitAction)((byte >> tmp)&0x01));
+		delay(104);
+	}
+	GPIO_WriteBit(GPIOA, GPIO_Pin_2, (BitAction)(check&0x01));
+	delay(104);
+	GPIO_SetBits(GPIOA, GPIO_Pin_2);
+}
+// 串口接收：接收成功 返回0
+uint8_t UARTreceive(uint8_t* buffer)
+{
+	uint8_t tmp, con = 0, check, mBuffer = 0;
+	while(1){
+		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3) == Bit_RESET){
+			delay(50);
+			if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3) == Bit_RESET){
+				break;
+			}
+		}
+	}
+	delay(104);
+	for(tmp = 0; tmp < 8; tmp++){
+		mBuffer |=  (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3) == (uint8_t)Bit_SET)& 0x01;
+		mBuffer <<= 1;
+		delay(104);
+	}
+	check |=  (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3) == (uint8_t)Bit_SET)& 0x01;
+	for(tmp = 0; tmp < 8; tmp++){
+		con ^= (mBuffer >> tmp) & 0x01;
+	}
+	con ^= check;
+	if(con == 0){
+		*buffer = mBuffer;
+		return 0;
+	}
+	return 1;
+}
+
+int main(void)
+{
+	uint8_t sendData, receiveDate, saveData;
+	UARTinit();
+	while(1){
+		sendData = 0x80;
+		UARTsend(sendData);
+		if(!UARTreceive(&receiveDate)){
+			saveData = receiveDate;
+		}
+		
+	}
+}
+        </code></pre>
     </main>
     </div>
 </body>

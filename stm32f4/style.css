@@ -137,9 +137,15 @@ span.re::after{
 pre{
     tab-size: 2em;
     font-size: large;
+    max-width: 800px;
 }
 main>h3{
     border: 1px solid gray;
     border-width: 1px 0px 0px 0px;
     padding-top: 20px;
+}
+
+/** 图片格式 **/
+img{
+    max-width: 800px;
 }
