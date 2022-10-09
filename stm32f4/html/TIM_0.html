@@ -27,7 +27,54 @@
 
     <!-- 主要内容区域 -->
     <main>
-        <h1>待更新</h1>
+        <h2>TIM 定时器初级</h2>
+        <p>定时器本质上是计数器，外界电平变化会导致寄存器中的值增加。当外界电平变化的频率一定时，根据计数器当中的值，就可以计算出记录的时间长度。</p>
+        <p>STM32F401CCU6 的系统频率时 168 MHz， AHB 总线1分频，APB1 总线4分频， APB2 总线2分频。当 APB1 和 APB2 总线分频数不为一时，时钟的信号源频率是总线频率的2倍，否则时钟频率等于总线频率。因此，APB1 总线上的定时器时钟频率为 84MHz，APB2 总线上的定时器时钟频率为 168MHz。</p>
+        <p>STM32F401CCU6 共有8个定时器：1 个高级定时器（TIM1），在APB2 总线上；7 个通用定时器（TIM2 ~ 5、TIM9 ~ 11），在APB1 总线上。本小节主要写通用定时器。</p>
+        <p class="ps">高级定时器还不会用。</p>
+        <h3>定时器的基本使用</h3>
+        <p>配置流程框图</p>
+        <div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;www.iodraw.com\&quot; modified=\&quot;2022-10-07T15:57:50.224Z\&quot; agent=\&quot;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.37\&quot; etag=\&quot;2Bz24zjco6WHvAa17qz8\&quot; version=\&quot;13.3.6\&quot; type=\&quot;device\&quot;&gt;&lt;diagram id=\&quot;0GbZi4fjK41TURYRk-kK\&quot; name=\&quot;第 1 页\&quot;&gt;3Vjfb9owEP5rTtoeJuU3ziMJYUVdp2lUm3iaXGIST0mMjCmwv3524pDSBJRt6kL7gs6f72T7u+/sC2CH+f4jx+v0jsUkA8uI92BPwLJcy5S/CjhUgOOgCkg4jSvIbIA5/UU0aGh0S2OyOXEUjGWCrk/BJSsKshQnGOac7U7dViw7XXWNE9IC5kuctdHvNBZphSJr1OA3hCZpvbLp+dVMjmtnfZJNimO2ewLZEdghZ0xUVr4PSaa4q3mp4qZnZo8b46QQfQLoze2hyBbzVRy6C/qwRP7t4kNN8yPOtvrEerfiUFNAYsmIHjIuUpawAmdRgwacbYuYqHUMOWp8PjG2lqApwZ9EiINOL94KJqFU5JmerdZUC509nIY2bMuX5NKJtEgwT4i44OccUyClS1hOBD/IOE4yLOjj6T6wFlFy9Gt4loam+k9ob7MeIQgMQDZEI/AdGKP72d2PWUHFu/etjDR8K/J2KRVkvsYlLTtZhV3cPhIuyP4yu202dIBTa1gXsW3o8a4pCbP2SZ+Ug2e8EIHorcnW6inbM4n6P7K1OmTrA3IBTZRsgwmMI4jkEIE/UcZ4BCgokRB8r/QJwJca98CPADkQOSpKIkNL/CjVq5H46K1J3P5H6erQL4zKlc8nzn6WkKqkdNSznBy38fdpsjtqwoUgBGQowzdgPP0ahqXkpfw9VTG+Bf50cMmbxrVJ3ux4F1+35p2e17o75LXu9LjWP3+bhYMrttWH+IMrtuNJfN2KdXsq1htSsW6vRqR146puA8F4Uk550ih77PuQFSuaXEGf3XrLBte310F02bIFU/XFIj9XgknX0+ZlcmfBA5dWoixFdJjHV8Bx69V7QY7lsPm+rxqO5k8SO/oN&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
+        <script type="text/javascript" src="https://www.iodraw.com/diagram/js/viewer.min.js"></script>
+        <pre><code>
+void timer_init()
+{
+    TIM_TimeBaseInitTypeDef timebase;
+    NVIC_InitTypeDef NVIC_InitStructure;
+    
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+    timebase.TIM_ClockDivision = TIM_CKD_DIV1;
+    timebase.TIM_CounterMode = TIM_CounterMode_Up;
+    timebase.TIM_Period = ;
+    timebase.TIM_Prescaler = ;
+    timebase.TIM_RepetitionCounter = 1;
+    TIM_TimeBaseInit(TIM3, &timebase);
+    
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_Init(&NVIC_InitStructure);
+    
+    TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
+}
+void TIM3_IRQHandler()
+{
+    // 中断函数所执行的代码
+    TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+}
+void main()
+{
+    timer_init();
+    TIM_Cmd(TIM3, ENABLE);
+    while(1);
+}
+        </code></pre>
+
+
+
+
     </main>
     </div>
 </body>
