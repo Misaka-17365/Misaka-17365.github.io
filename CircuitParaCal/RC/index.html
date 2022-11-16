@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang = "zh">
+<head>
+    <title>低通/高通RC滤波器</title>
+    <meta charset="UTF-8"/>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="script.js"></script>
+</head>
+
+<body>
+
+</body>
+    <nav><a href="../index.html"> &lt;- 返回目录</a><h1>低通/高通RC滤波器</h1></nav>
+    
+    <main>
+        <div> $$f_{_{cutoff}} = \frac{1}{2\pi RC}$$ </div>
+        <p id="result"></p>
+        <div class="panel">
+            <img src="https://www.elecfans.com/tools/images/rc01.gif"/>
+            <img src="https://www.elecfans.com/tools/images/rc02.gif"/>
+            <div id="form">
+                <p>截止频率[kHz]：<input id="frec" type="text"/></p>
+                <p>电容值[uF]：<input id="c" type="text"/></p>
+                <p>电阻值[kΩ]：<input id="r" type="text"/></p>
+                <div id="button" style="display: flex; flex-direction: row;">
+                    <input id="clear" onclick=clearNumber() value="清空" type="submit">
+                    <input id="submit" onclick=confirm() value="确定" type="submit">
+
+                </div>
+            </div>
+        </div>
+    </main>
+</html>

@@ -1,0 +1,95 @@
+*:hover{
+    cursor: default;
+}
+*{
+    border: 1px solid rgba(255, 0, 0, 0);
+}
+body{
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: auto;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+
+nav{
+    width: 100%;
+    height: 80px;
+    border: 1px solid rgba(0, 0, 0, 0.199);
+    border-width: 0px 0px 1px 0px;
+}
+nav>h1{
+    text-align: center;
+    color: rgb(118, 118, 247);
+    font-size: xx-larger;
+    font-weight: 500;
+}
+nav>a{
+    position: absolute;
+    top: 30px;
+    color: rgb(75, 92, 92);
+    width: 120px;
+    font-weight: 200;
+}
+nav>a:hover{
+    color: black;
+    cursor: pointer;
+}
+main{
+    padding: 80px 40px;
+    border-bottom: 1px solid rgba(163, 163, 163, 0.349);
+}
+main>h1{
+    font-size: x-large;
+    font-weight: 300;
+}
+
+
+.panel{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: large;
+}
+.panel>img{
+    width: 160px;
+}
+
+div input{
+    width: 160px;
+    text-align: center;
+    font-size: large;
+    float: right;
+    border: 1px solid rgba(0, 0, 0, 0.342);
+    padding: 4px 4px;
+    border-width: 0px 0px 1px 0px;
+}
+div input:focus{
+    outline: none;
+}
+#button>input{
+    flex-grow: 1;
+    text-align: center;
+    margin: 0px 16px ;
+    padding: 4px;
+    border-bottom: 1px solid rgba(209, 209, 209, 0.459);
+}
+#button>input:hover{
+    background-color: rgba(70, 69, 69, 0.151);
+    cursor: pointer;
+}
+
+
+#result{
+    height: 60px;
+    width: 80%;
+    text-align: center;
+    border: 1px dotted black;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    line-height: 60px;
+}

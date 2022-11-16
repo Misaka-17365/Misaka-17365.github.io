@@ -1,0 +1,50 @@
+*:hover{
+    cursor: default;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: auto;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+
+nav{
+    width: 100%;
+    align-self: center;
+    border: 1px solid rgba(0, 0, 0, 0.199);
+    border-width: 0px 0px 1px 0px;
+}
+nav>h1{
+    text-align: center;
+    color: rgb(118, 118, 247);
+    font-size: xx-larger;
+    font-weight: 500;
+}
+
+main{
+    padding: 20px 40px;
+}
+main>h1{
+    font-size: x-large;
+    font-weight: 300;
+    padding-top: 20px;
+    padding-left: 50px;
+}
+
+main>a{
+    display: block;
+    font-size: larger;
+    font-weight: 300;
+    border: 1px solid rgba(128, 128, 128, 0.267);
+    border-width: 1px 0px 0px 0px;
+    padding: 8px 16px;
+}
+main>a:hover{
+    color: rgb(63, 197, 197);
+    cursor: none;
+    background-color: rgba(156, 156, 156, 0.082);
+}
