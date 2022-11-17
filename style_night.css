@@ -1,0 +1,11 @@
+
+html{
+    background-color: rgba(0, 0, 0, 0.904);
+}
+.dropcontent>a{
+    background-color: rgba(49, 49, 49, 0.445);
+}
+.stit:hover{
+    background-color: rgba(255, 255, 255, 0.055);
+    border-bottom: 1px solid white;
+}

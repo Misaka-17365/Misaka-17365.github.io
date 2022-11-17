@@ -1,8 +1,0 @@
-body{
-    display: flex;
-    flex-direction: column;
-    padding: 40px;
-}
-p{
-    font-size: medium;
-}

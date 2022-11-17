@@ -1,106 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 
 <head>
 	<meta charset="UTF-8" />
 	<title>蛮大的屋子（￣︶￣）↗　</title>
 	<link rel="shortcut icon" href="figure/ico.gif">
 	<link type="text/css" rel="stylesheet" href="style.css" />
-
+	<link id="skin" type="text/css" rel="stylesheet" href="style_day.css" />
+	<script type="text/javascript" src="script.js"></script>
 </head>
 
 <body>
-	<!--
-	<script src="https://cdn.jsdelivr.net/gh/wallleap/cdn@latest/js/sakura.js">	</script>
--->
+
+	<nav>
+		<div class="drop">
+			<a>Data</a>
+			<div class="dropcontent">
+				<a href="stm32f4/">STM32F401CCU6</a>
+			</div>
+		</div>
+
+		<div class="drop">
+			<a>Collections</a>
+			<div class="dropcontent">
+				<a href="./collections/search.html">Search</a>
+				<a href="./collections/online-tools.html">Tools Collections</a>
+				<a href="./collections/LaTeX-info.html">LaTeX Info</a>
+			</div>
+		</div>
+
+		
+		<div class="drop">
+			<a>Tools</a>
+			<div class="dropcontent">
+				<a href="CircuitParaCal/">Circuit Calculater</a>
+				<a href="IPget/">IP Get</a>
+			</div>
+		</div>
+
+		<div onclick="changeSkin()">
+			<img id="skinswitch" src="figure/day.svg"/>
+		</div>
+		
+	</nav>
+
 	<main>
-		<div id="nav">
-			<a href="https://misaka-17365.github.io"><img src="figure/logo_withText.png" height="100%" alt="网页Logo"></a>
-			<div class="blank"></div>
-			<div class="droplist">
-				<a href="/stm32f4/" class="dropbtn">STM32手册</a>
-			</div>
 
-			<div class="droplist">
-				<a href="./collections/search.html" class="dropbtn">网站收藏</a>
-				<div class="dropcontent">
-					<a href="./collections/search.html">资源搜索</a>
-					<a href="./collections/online-tools.html">在线工具</a>
-					<a href="./collections/LaTeX-info.html">LaTeX查阅</a>
-				</div>
-			</div>
-			<div class="droplist">
-				<a href="./eBook-share/entertainment.html" class="dropbtn">电子书分享</a>
-				<div class="dropcontent">
-					<a href="./eBook-share/entertainment.html">娱乐</a>
-					<a href="./eBook-share/thinking.html">思考</a>
-					<a href="./eBook-share/technology.html">技术</a>
-				</div>
-			</div>
-			<div style="display: none;" class="droplist">
-				<a style="cursor: pointer;" class="dropbtn">关于</a>
-				<div class="dropcontent">
-					<a href="https://github.com/Misaka-17365/Misaka-17365.github.io">此页面的源</a>
-					<a href="https://space.bilibili.com/157153749">TA的B站主页</a>
-					<a href="https://music.163.com/#/user/home?id=1307318540">TA的网抑云</a>
-				</div>
-			</div>
-		</div>
 		<div id="search">
-			<input id="searchbar" onkeydown="if(event.keyCode=='13')
-			{
-				if(document.getElementById('searchbar').value!='输入搜索内容')
-				{
-					window.open('https://www.ecosia.org/search?q='+document.getElementById('searchbar').value)
-				}
-			}" type="text" value="输入搜索内容" onfocus="if(value=='输入搜索内容'){value='';changeColor();}" onblur="if(value==''){value='输入搜索内容';changeColor();}" >
-			<a onclick="if(document.getElementById('searchbar').value!='输入搜索内容'){window.open('https://www.ecosia.org/search?q='+document.getElementById('searchbar').value)}">搜&nbsp;索</a>
+			<div id="englist">
+				<a id="engdis"></a>
+				<div id="engdrop">
+					<button onclick=changeEng(0)>Bing</button>
+					<button onclick=changeEng(1)>Ecosia</button>
+					<button onclick=changeEng(2)>Google</button>
+				</div>
+			</div>
+			<script>changeEng(0);</script>
+			<input id="searchbar" 
+				onkeydown="if(event.keyCode=='13'){searchgo()}" 
+				type="text" value="Something to Search" 
+				onfocus="if(value=='Something to Search'){value='';changeColor();}"
+				onblur="if(value==''){value='Something to Search';changeColor();}"
+			>
+			<button onclick="searchgo()"><svg width="32px" height="32px" t="1668682806422" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2670" width="200" height="200"><path d="M288.791335 65.582671l446.41733 446.417329-446.41733 446.417329z" p-id="2671" fill="#9b64d7"></path></svg></button>
 		</div>
-		<script>
-			function changeColor() {
-			if(document.getElementById("searchbar").value != "输入搜索内容")
-			{document.getElementById("searchbar").style.color="black";}
-			else{document.getElementById("searchbar").style.color="rgba(128, 128, 128, 0.603)";}
-			}
-		</script>
 
+		<div class="line"></div>
 		<div id="shortcut">
-				<a class="stit"href="https://www.uestc.edu.cn/" target="_blank">
-					<img src="figure/uestc_logo.png" height="80%">
-					<p>成电官网</p>
-				</a>
-				<a class="stit" href="https://idas.uestc.edu.cn/authserver/login?service=http://eams.uestc.edu.cn/eams/login.action"
-					target="_blank">
-					<img src="figure/uestc_logo.png" height="80%">
-					<p>教务系统</p>
-				</a>
-				<a class="stit" href="https://www.qiusuozhilu.com/" target="_blank">
-					<img src="figure/qszl_logo.png" width="80%">
-					<p>求索之路</p>
-				</a>
-				<a class="stit" href="https://www.jiumosearch.com/" target="_blank">
-					<img src="figure/jm_logo.png" width="80%">
-					<p>鸠摩搜书</p>
-				</a>
-				<a class="stit" href="https://github.com/" target="_blank">
-					<img src="figure/github_logo.png" width="80%">
-					<p>github</p>
-				</a>
-				<a class="stit" href="https://msdn.itellyou.cn/" target="_blank">
-					<img src="https://static.itellyou.cn/images/logo.png" width="80%" alt="ITELLYOU.CN">
-					<p>MSDN</p>
-				</a>
-				<a class="stit" href="https://wf-130412.github.io/" target="_blank">
-					<img src="figure/xizi_logo.png" width="80%">
-					<p>西子的主页</p>
-				</a>
-
+			<a class="stit" href="https://www.uestc.edu.cn/" target="_blank">
+				<img src="figure/uestc_logo.png" height="80%">
+			</a>
+			<a class="stit"
+				href="https://idas.uestc.edu.cn/authserver/login?service=http://eams.uestc.edu.cn/eams/login.action" target="_blank">
+				<img src="figure/uestc_logo.png" height="80%">
+			</a>
+			<a class="stit" href="https://www.qiusuozhilu.com/" target="_blank">
+				<img src="figure/qszl_logo.png" width="80%">
+			</a>
+			<a class="stit" href="https://www.jiumosearch.com/" target="_blank">
+				<img src="figure/jm_logo.png" width="80%">
+			</a>
+			<a class="stit" href="https://github.com/" target="_blank">
+				<img src="figure/github_logo.png" width="80%">
+			</a>
+			<a class="stit" href="https://msdn.itellyou.cn/" target="_blank">
+				<img src="https://static.itellyou.cn/images/logo.png" width="80%" alt="ITELLYOU.CN">
+			</a>
+			
 		</div>
-	</div>
 	</main>
-	<footer>
-        <p><a href="../index.html">回到主页</a>&nbsp;&nbsp;·&nbsp;&nbsp;  <a href="#nav">返回顶部</a> &nbsp;&nbsp;·&nbsp;&nbsp;<a>作者邮箱nowto137@163.com</a></p>
-    </footer>
+
+	
 </body>
 
 </html>
