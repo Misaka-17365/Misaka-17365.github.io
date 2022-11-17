@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>555定时器参数计算</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="script.js"></script>
+
+</head>
+
+<body>
+    <nav><a href="../index.html"> &lt;- 返回目录</a><h1>555定时器参数计算</h1></nav>
+
+    <main>
+        \begin{align}
+        t_{+} &= (R_1 + R_2)C\ln2 \\
+        \\
+        t_{-} &= R_2 C \ln 2\\
+        \\
+        T &= t_{+} + t_{-}\\
+        \\
+        Duty &= \frac{t_{+}}{t_{+}+t_{-}}\\
+        \\
+        \ln2 &= 0.693
+        \end{align}
+
+        <div id="result"></div>
+        <div class="panel">
+            <img src="https://www.elecfans.com/tools/images/555.gif"/>
+            <div id="form">
+                <p>电容[uF]：<input id="c" type="text"/></p>
+                <p>电阻R1[kΩ]：<input id="r1" type="text"/></p>
+                <p>电阻R2[kΩ]：<input id="r2" type="text"/></p>
+                <div id="button">
+                    <input onclick="confirm()" type="button" value="确定">
+                    <input onclick="clearNumber()" type="button" value="清空">
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>
