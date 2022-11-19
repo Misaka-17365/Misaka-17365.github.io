@@ -46,7 +46,10 @@ main>h1{
     font-size: x-large;
     font-weight: 300;
 }
-
+.ps{
+    color: gray;
+    text-align: center;
+}
 
 .panel{
     display: flex;
@@ -55,7 +58,7 @@ main>h1{
     font-size: large;
 }
 .panel>img{
-    width: 160px;
+    width: 200px;
 }
 
 div input{

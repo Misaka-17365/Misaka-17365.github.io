@@ -4,9 +4,16 @@
 <head>
     <title>低通/高通RC滤波器</title>
     <meta charset="UTF-8"/>
-    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/style.css"/>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="script.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$', '$']]},
+            messageStyle: "none"
+        });
+    </script>
+
 </head>
 
 <body>
@@ -21,9 +28,9 @@
             <img src="https://www.elecfans.com/tools/images/rc01.gif"/>
             <img src="https://www.elecfans.com/tools/images/rc02.gif"/>
             <div id="form">
-                <p>截止频率[kHz]：<input id="frec" type="text"/></p>
-                <p>电容[uF]：<input id="c" type="text"/></p>
-                <p>电阻[kΩ]：<input id="r" type="text"/></p>
+                <p>截止频率$f$ [kHz]：<input id="frec" type="text"/></p>
+                <p>电容$C$[uF]：<input id="c" type="text"/></p>
+                <p>电阻$R$[kΩ]：<input id="r" type="text"/></p>
                 <div id="button" style="display: flex; flex-direction: row;">
                     <input id="clear" onclick=clearNumber() value="清空" type="submit">
                     <input id="submit" onclick=confirm() value="确定" type="submit">
