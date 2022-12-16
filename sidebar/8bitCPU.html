@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <title>8位CPU</title>
+    <link href="style.css" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+    <h2>main.cpp</h2>
+    <pre><code>
+        /*
+        *	CPU	汇编器
+        *	
+        *	2022/12/16
+        * 
+        */
+        
+        #include <stdio.h>
+        #include <string.h>
+        #include <stdlib.h>
+        
+        #include"lib.h"
+        
+        int cmdCount = 0;
+        
+        
+        char toChar(int num)
+        {
+            if (num >= 0 && num <= 9) {
+                return (num + '0');
+            }
+            if (num <= 15 && num >= 10) {
+                return (num + 'a');
+            }
+        }
+        
+        
+        /* ass.exe [input] [output] */
+        int main(int argc, char* argv[])
+        {
+            if (argc != 3) {
+                printf("Param error...");
+                return 0;
+            }
+            FILE* in,* out, *tmp;
+            fopen_s(&in, argv[1], "r");
+            fopen_s(&tmp, "temp.tmp", "w");
+            fopen_s(&out, argv[2], "w");
+            if (in == nullptr || out == nullptr || tmp == nullptr) {
+                printf("Open files failed...");
+                return 0;
+            }
+        
+        
+        
+        
+            char label[4][16];
+            unsigned char position[256];
+            int labelCount = 0;
+            unsigned char cursor;
+            // 预解析
+            cursor = 0;
+            while (!feof(in)) {
+                char line[24];
+                char word[3][8];
+                
+        
+        
+                if (nullptr == fgets(line, 24, in)) {
+                    continue;
+                }
+        
+                if (strchr(line, ':') != NULL) {
+                    int i = 0, j = 0;
+                    while (!(line[i] >= 'a' && line[i] <= 'z' || line[i] >= 'A' && line[i] <= 'Z')) {
+                        i++;
+                    }
+                    while (line[i] != ':') {
+                        label[labelCount][j] = line[i];
+                        j++;
+                        i++;
+                    }
+                    label[labelCount][j] = 0;
+                    position[labelCount] = cursor;
+                    labelCount++;
+                    continue;
+                }
+        
+                distruct(word, line);
+        
+                if (word[0][0] == 0) {
+                    continue;
+                }
+        
+                printf("%s", line);
+                printf("%s : %s : %s", word[0], word[1], word[2]);
+                printf("\n-------\n");
+        
+                if(findRx(word[1]) == -1 && word[1][0] != 0 || findRx(word[2]) == -1 && word[2][0] != 0) {
+                    cursor += 2;
+                }
+                else {
+                    cursor++;
+                }
+            }
+            rewind(in);
+            // 标签替换
+            while (!feof(in)) {
+                char line[24];
+                char word[3][8];
+        
+                if (nullptr == fgets(line, 24, in)) {
+                    continue;
+                }
+        
+                if (strchr(line, ':') != NULL) {
+                    continue;
+                }
+        
+                distruct(word, line);
+        
+                if (word[0][0] == 0) {
+                    continue;
+                }
+        
+                printf("%s", line);
+                printf("%s : %s : %s", word[0], word[1], word[2]);
+                printf("\n-------\n");
+        
+                if (word[0][0]=='B' && findRx(word[1]) == -1) {
+                    int i;
+                    for (i = 0; i < labelCount; i++) {
+                        if (strcmp(label[i], word[1]) == 0) {
+                            word[1][0] = toChar(position[i] / 16);
+                            word[1][1] = toChar(position[i] % 16);
+                            word[1][2] = 0;
+                        }
+                    }
+                }
+                fprintf(tmp, "%s %s %s\n", word[0], word[1], word[2]);
+            }
+        
+        
+        
+            fclose(tmp);
+            fopen_s(&tmp, "temp.tmp", "r");
+        
+        
+            cursor = 0;
+            // 解析 
+            while (!feof(tmp)) {
+                char line[24];
+                char word[3][8];
+                cursor++;
+                if (nullptr == fgets(line, 24, tmp)) {
+                    continue;
+                }
+                
+                distruct (word, line);
+                
+                if (word[0][0] == 0) {
+                    continue;
+                }
+                printf("%s", line);
+                printf("%s : %s : %s", word[0], word[1], word[2]);
+                printf("\n-------\n");
+        
+                cmd[cmdCount] =(Cmd*)malloc(sizeof(Cmd));
+                if (cmd[cmdCount] == nullptr) {
+                    return -1;
+                }
+        
+                cmd[cmdCount]->mne = findMne(word[0]);
+                if (cmd[cmdCount]->mne == -1) {
+                    printf("Undefined  \"%s\" used in line: %d", word[0], cursor);
+                    return -1;
+                }
+                int flag = findRx(word[1]);
+                if (flag == -1) {
+                    cmd[cmdCount]->pa_1_type = 4;
+                    strcpy(cmd[cmdCount]->pa_1_value, word[1]);
+                }
+                else {
+                    cmd[cmdCount]->pa_1_type = flag;
+                    (cmd[cmdCount]->pa_1_value)[0] = 0;
+                }
+        
+        
+                if (word[2][0] == 0) {
+                    cmd[cmdCount]->pa_2_type = -1;
+                    (cmd[cmdCount]->pa_2_value)[0] = 0;
+                }
+                else {
+                    flag = findRx(word[2]);
+        
+                    if (flag == -1) {
+                        cmd[cmdCount]->pa_2_type = 4;
+                        strcpy(cmd[cmdCount]->pa_2_value, word[2]);
+                    }
+                    else {
+                        cmd[cmdCount]->pa_2_type = flag;
+                        (cmd[cmdCount]->pa_2_value)[0] = 0;
+                    }
+                }
+                cmdCount++;
+            }
+            
+            
+        
+            // 翻译
+            fputs("v2.0 raw\n", out);
+            for (int q = 0; q < cmdCount; q++) {
+                if (translate(out, cmd[q]) == -1) {
+                    printf("error in line: %d", q);
+                    return -1;
+                }
+            }
+            
+            
+            for (int i = 0; i < cmdCount; i++) {
+                printf("%d\t|\t%d\t:\t%s\t|\t%d\t:\t%s\n", cmd[i]->mne, cmd[i]->pa_1_type, cmd[i]->pa_1_value, cmd[i]->pa_2_type, cmd[i]->pa_2_value);
+            }
+            
+            fclose(in);
+            fclose(out);
+            printf("Succsee: %s -> %s", argv[1], argv[2]);
+            return 0;
+        }
+    </code></pre>
+
+    <h2>lib.h</h2>
+    <pre><code>
+        #ifndef __LIB_H__
+        #define __LIB_H__
+
+        #include<stdio.h>
+        #include<string.h>
+
+
+
+        typedef struct {
+            int mne;
+            int pa_1_type;
+            char pa_1_value[8];
+            int pa_2_type;
+            char pa_2_value[8];
+        }Cmd;
+
+        extern Cmd* cmd[2048];
+
+        extern const char* MNEMONIC[];
+        extern const char* CODE[];
+
+
+        int findMne(char* str);
+        int findRx(char* str);
+        int distruct(char buffer[3][8], char* src);
+        int translate(FILE*, Cmd*);
+
+        #endif // !__LIB_H__
+
+
+    </code></pre>
+
+    <h2>lib.cpp</h2>
+    <pre><code>
+        #include "lib.h"
+
+
+        const char* MNEMONIC[] = {
+            "MOV",	// 00
+            "LD" ,	// 01
+            "STR", 	// 02
+            "CLR", 	// 03
+            "INC", 	// 04
+            "DEC", 	// 05
+            "ADD",	// 06
+            "ADC",	// 07
+            
+            "SUB",	// 08
+            "SBB",	// 09
+            "ANL",	// 10
+            "ORL",	// 11
+            "XRL",	// 12
+            "SHL",	// 13
+            "SHR",	// 14
+            "NOP",	// 15
+            "END",	// 16
+            "BEQ",	// 17
+            "BER",	// 18
+            "BNE",	// 19
+            "BNR"	// 20
+        };
+
+        const char* RX[] = {
+            "R0","R1","R2","R3"
+        };
+
+
+
+        // 只声明了指针，使用时记得申请内存
+        Cmd *cmd[2048];
+
+
+        int findMne(char* str)
+        {
+            int i;
+            for (i = 0; i < 21; i++) {
+                if (0 == strcmp(str, MNEMONIC[i])) {
+                    break;
+                }
+            }
+            if (i == 21) {
+                i = -1;
+            }
+            return i;
+        }
+
+        int findRx(char* str)
+        {
+            int i = -1;
+            for (i = 0; i < 4; i++) {
+                if (0 == strcmp(str, RX[i])) {
+                    break;
+                }
+            }
+            if (i == 4) {
+                i = -1;
+            }
+            return i;
+        }
+
+        int distruct(char buffer[3][8], char* src)
+        {
+            for (int i = 0; i < 8; i++) {
+                buffer[0][i] = buffer[1][i] = buffer[2][i] = 0;
+            }
+
+            int i = 0;
+            int wc = 0, j = 0;
+
+            while (src[i] != 0 && src[i] != ';') {
+                
+                if (src[i] == ' ' || src[i] == '\n' || src[i] == ',' || src[i] == '\t') {
+                    while (src[i] == ' ' || src[i] == '\n' || src[i] == ',' || src[i] == '\t') {
+                        j = 0;
+                        i++;
+                    }
+                }
+
+                else if (src[i] >= 'A' && src[i] <= 'Z' || src[i] >= '0' && src[i] <= '9') {
+                    while (src[i] >= 'A' && src[i] <= 'Z' || src[i] >= '0' && src[i] <= '9') {
+                        buffer[wc][j] = src[i];
+                        i++;
+                        j++;
+                    }
+                    buffer[wc][j] = 0;
+                    wc++;
+                }
+
+                else {
+                    return -1;
+                }
+            }
+            return 0;
+        }
+            
+        #define ISR(x) ((x)>=0 && (x)<=3)
+        unsigned char toHex(char ch)
+        {
+            if (ch >= '0' && ch <= '9') {
+                return (ch - '0');
+            }
+            if (ch >= 'a' && ch <= 'f') {
+                return(ch - 'a' + 10);
+            }
+            if (ch >= 'A' && ch <= 'F') {
+                return (ch - 'A' + 10);
+            }
+        }
+        int translate(FILE* file, Cmd* cmd)
+        {
+            unsigned char code = 0, data = 0;
+            unsigned char isTwoByte  = 0;
+            
+            if (cmd->pa_1_type == 4) {
+                data |= (toHex((cmd->pa_1_value)[0]) & 0x0f) << 4;
+                data |= (toHex((cmd->pa_1_value)[1]) & 0x0f);
+            }
+            if (cmd->pa_2_type == 4) {
+                data |= (toHex((cmd->pa_2_value)[0]) & 0x0f) << 4;
+                data |= (toHex((cmd->pa_2_value)[1]) & 0x0f);
+            }
+            switch (cmd->mne)
+            {
+            case 0:
+                if (ISR(cmd->pa_1_type)&&ISR(cmd->pa_2_type)) {
+                    code |= 0x50;
+                    code |= (cmd->pa_1_type & 0x03) << 2;
+                    code |= (cmd->pa_2_type & 0x03);
+                }
+                else if (ISR(cmd->pa_1_type) && (cmd->pa_2_type) == 4) {
+                    code |= 0x04;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 1:
+                if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x08;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 2:
+                if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x0c;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 3:
+                if (ISR(cmd->pa_1_type) && cmd->pa_2_type == -1) {
+                    code |= 0x40;
+                    code |= cmd->pa_1_type & 0x03;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 4:
+                if (ISR(cmd->pa_1_type) && cmd->pa_2_type == -1) {
+                    code |= 0x44;
+                    code |= cmd->pa_1_type & 0x03;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 5:
+                if (ISR(cmd->pa_1_type) && cmd->pa_2_type == -1) {
+                    code |= 0x48;
+                    code |= cmd->pa_1_type & 0x03;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 6:
+                if (ISR(cmd->pa_1_type) && ISR(cmd->pa_2_type)) {
+                    code |= 0x60;
+                    code |= (cmd->pa_1_type & 0x03) << 4;
+                    code |= cmd->pa_2_type & 0x03;
+                }
+                else if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x10;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 7:
+                if (ISR(cmd->pa_1_type) && ISR(cmd->pa_2_type)) {
+                    code |= 0x70;
+                    code |= (cmd->pa_1_type & 0x03) << 4;
+                    code |= cmd->pa_2_type & 0x03;
+                }
+                else if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x14;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 8:
+                if (ISR(cmd->pa_1_type) && ISR(cmd->pa_2_type)) {
+                    code |= 0x80;
+                    code |= (cmd->pa_1_type & 0x03) << 4;
+                    code |= cmd->pa_2_type & 0x03;
+                }
+                else if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x18;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 9:
+                if (ISR(cmd->pa_1_type) && ISR(cmd->pa_2_type)) {
+                    code |= 0x90;
+                    code |= (cmd->pa_1_type & 0x03) << 4;
+                    code |= cmd->pa_2_type & 0x03;
+                }
+                else if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x1c;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 10:
+                if (ISR(cmd->pa_1_type) && ISR(cmd->pa_2_type)) {
+                    code |= 0xa0;
+                    code |= (cmd->pa_1_type & 0x03) << 4;
+                    code |= cmd->pa_2_type & 0x03;
+                }
+                else if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x20;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 11:
+                if (ISR(cmd->pa_1_type) && ISR(cmd->pa_2_type)) {
+                    code |= 0xb0;
+                    code |= (cmd->pa_1_type & 0x03) << 4;
+                    code |= cmd->pa_2_type & 0x03;
+                }
+                else if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x24;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 12:
+                if (ISR(cmd->pa_1_type) && ISR(cmd->pa_2_type)) {
+                    code |= 0xc0;
+                    code |= (cmd->pa_1_type & 0x03) << 2;
+                    code |= cmd->pa_2_type & 0x03;
+                }
+                else if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x28;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 13:
+                if (ISR(cmd->pa_1_type) && ISR(cmd->pa_2_type)) {
+                    code |= 0xd0;
+                    code |= (cmd->pa_1_type & 0x03) << 4;
+                    code |= cmd->pa_2_type & 0x03;
+                }
+                else if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x2c;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 14:
+                if (ISR(cmd->pa_1_type) && ISR(cmd->pa_2_type)) {
+                    code |= 0xe0;
+                    code |= (cmd->pa_1_type & 0x03) << 4;
+                    code |= cmd->pa_2_type & 0x03;
+                }
+                else if (ISR(cmd->pa_1_type) && cmd->pa_2_type == 4) {
+                    code |= 0x30;
+                    code |= cmd->pa_1_type & 0x03;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 15:
+
+                break;
+            case 16:
+                code |= 0x03;
+                break;
+            case 17:
+                if (ISR(cmd->pa_1_type) && cmd->pa_2_type == -1) {
+                    code |= 0xf0;
+                    code |= (cmd->pa_1_type & 0x03);
+                }
+                else if ((cmd->pa_1_type == 4) && cmd->pa_2_type == -1) {
+                    code |= 0x34;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 18:
+                if (ISR(cmd->pa_1_type) && cmd->pa_2_type == -1) {
+                    code |= 0xf4;
+                    code |= (cmd->pa_1_type & 0x03);
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 19:
+                if (ISR(cmd->pa_1_type) && cmd->pa_2_type == -1) {
+                    code |= 0xf8;
+                    code |= (cmd->pa_1_type & 0x03);
+                }
+                else if ((cmd->pa_1_type == 4) && cmd->pa_2_type == -1) {
+                    code |= 0x38;
+                    isTwoByte = 1;
+                }
+                else {
+                    goto error;
+                }
+                break;
+            case 20:
+                if (ISR(cmd->pa_1_type) && cmd->pa_2_type == -1) {
+                    code |= 0xfc;
+                    code |= (cmd->pa_1_type & 0x03);
+                }
+                else {
+                    goto error;
+                }
+                break;
+            
+
+            default:
+                break;
+            }
+
+            fprintf(file, "%x ", code);
+            if (isTwoByte) {
+                fprintf(file, "%x ", data);
+            }
+
+            return 0;
+
+        error:
+            return -1;
+        }
+
+    </code></pre>
+</body>
+</html>
