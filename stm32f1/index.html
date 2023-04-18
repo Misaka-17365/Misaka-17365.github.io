@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+
+<html onload="choose_content(0)">
+    <head>
+        <title>STM32F1 速查手册</title>
+        <script src="./script.js" ></script>
+        <link href="./style.css" rel="stylesheet" type="text/css" />
+
+    </head>
+    <body>
+        <nav><div>STM32F1 速查手册</div></nav>
+        <div class="tab">
+            <div class="ti" onclick="choose_content(0)" id="PWR">PWR</div>
+            <div class="ti" onclick="choose_content(1)" id="RCC">RCC</div>
+            <div class="ti" onclick="choose_content(2)" id="GPIO">GPIO</div>
+            <div class="ti" onclick="choose_content(3)" id="TIMER">TIMER</div>
+            <div class="ti" onclick="choose_content(4)" id="ADC">ADC</div>
+        </div>
+
+       
+        <div id="display">
+
+            <!--PWR-->
+            <div class="default-show" id="0">
+                <h1>PWR 电源控制</h1>
+
+                <h2>寄存器</h2>
+                <h3>电源控制寄存器 PWR_CR</h3>
+                <p>复位：0x0000_0000 待机唤醒清除</p>
+
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="16">保留</td>
+                    </tr>
+                    <tr>
+                        <td colspan="16">res</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td colspan="7">保留</td>
+                        <td title="[软件控制] 取消后备区域写保护 ">DBP</td>
+                        <td colspan="3" title="[软件控制] PLV 电平选择 [000]2.2V ... [111]2.9V">PLS[2:0]</td>
+                        <td title="[软件控制] 写 1 时 PVD(电源电压检测器) 开启">PVDE</td>
+                        <td title="清除待机位">CSBF</td>
+                        <td title="清除唤醒位">CWUF</td>
+                        <td title="掉电深睡眠 [0]停机模式  [1]待机模式">PDDS</td>
+                        <td title="深睡眠下的低功耗 [0]停机模式调压器开启 [1]停机模式调压器低功耗">LPDS</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7">res</td>
+                        <td colspan="1">rw</td>
+                        <td colspan="3">rw</td>
+                        <td>rw</td>
+                        <td>rc_w1</td>
+                        <td>rc_w1</td>
+                        <td>rw</td>
+                        <td>rw</td>
+
+                    </tr>
+                </table>
+
+                <h3>电源控制/状态寄存器 PWR_CSR</h3>
+                <p>复位：0x0000_0000 待机唤醒不清除</p>
+
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="16">保留</td>
+                    </tr>
+                    <tr>
+                        <td colspan="16">res</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td colspan="7">保留</td>
+                        <td title="使能 WKUP 引脚">EWUP</td>
+                        <td colspan="5">保留</td>
+                        <td title="PVD 输出 [0]正常  [1]低电压">PVDO</td>
+                        <td title="待机标志 [1]待机模式">SBF</td>
+                        <td title="唤醒标志 [1]WKUP引脚唤醒 或 RTC 闹钟">WUF</td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="7">res</td>
+                        <td colspan="1">rw</td>
+                        <td colspan="5">res</td>
+                        <td>r</td>
+                        <td>r</td>
+                        <td>r</td>
+                    </tr>
+                </table>
+
+                <h2>寄存器 map</h2>
+                <p><img src="./fig/REG_PWR.jpg"/></p>
+
+                <h2>电源框图</h2>
+                <p><img src="./fig/PWR_map.jpg"/></p>
+                
+            </div>
+
+            
+            <!--RCC-->
+            <div id="1">
+                <h1>RCC 复位和时钟控制 </h1>
+
+                <h2>寄存器</h2>
+                <h3>时钟控制寄存器 RCC_CR</h3>
+                <p>复位：0x0000_XX83</p>
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="6">保留</td>
+                        <td title="[硬件控制] PLL 准备就绪时为 1 ">PLL
+                            RDY</td>
+                        <td title="[软件控制] 写 1 时 PLL 开启 ">PLL
+                            ON</td>
+                        <td colspan="4">保留</td>
+                        <td title="[软件控制] 写 1 时 时钟安全系统 开启">CSS
+                            ON</td>
+                        <td title="[软件控制] 写 1 时 无源晶振驱动电路被旁路，外部时钟直接进入 HSE">HSE
+                            BYP</td>
+                        <td title="[硬件控制] HSE 准备就绪时为 1 ">HSE
+                            RDY</td>
+                        <td title="[软件控制] 写 1 时 HSE 开启">HSE
+                            ON</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">res</td>
+                        <td>r</td>
+                        <td>rw</td>
+                        <td colspan="4">res</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>r</td>
+                        <td>rw</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td title="[硬件控制] 出厂时内部 HSI 校准" colspan="8">HSICAL[7:0]</td>
+                        <td title="[软件控制] 用户自行校准 HSI " colspan="5">HSITRIM[4:0]</td>
+                        <td>保留</td>
+                        <td title="[硬件控制] HSI 准备就绪时为 1 ">HSI
+                            RDY</td>
+                        <td title="[软件控制] 写 1 时 HSI 开启">HSI
+                            ON</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">r</td>
+                        <td colspan="5">rw</td>
+                        <td>res</td>
+                        <td>r</td>
+                        <td>rw</td>
+                    </tr>
+                </table>
+
+                <h3>时钟配置寄存器 RCC_CFGR</h3>
+                <p>复位：0x0000_0000</p>
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="5">保留</td>
+                        <td title="[软件控制] 时钟输出控制 [0xx]无输出 [100]SysCLK [101]HSI [110]HSE [111]PLL/2 " colspan="3">MCO[2:0]</td>
+                        <td>保留</td>
+                        <td title="[软件控制] USB 预分频 [0]1.5分频 [1]不分频">USB
+                            PRE</td>
+                        <td colspan="4" title="[软件控制] PLL 倍频数 [0xxxx]不倍频 [1xxx]倍频为 xxx+2">PLLMUL[3:0]</td>
+                        <td title="[软件控制] 写 1 后 HSE 二分频之后输入 PLL ">PLL
+                            XTPRE</td>
+                        <td title="[软件控制] 选择 PLL 时钟源 [0]HSI/2 [1]HSE(/PLLXTPRE)">PLL
+                            SRC</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">res</td>
+                        <td colspan="3">rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+                        <td colspan="4">rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td title="[软件控制] ADC 预分频 [00]2 [01]4 [10]6 [11]8 在APB2 基础上分频" colspan="2">ADCPRE[1:0]</td>
+                        <td title="[软件控制] APB2 预分频 [0xx]不分频 [100]2 [101]4 [110]8 [111]16" colspan="3">PPRE2[2:0]</td>
+                        <td title="[软件控制] APB1 预分频 [0xx]不分频 [100]2 [101]4 [110]8 [111]16" colspan="3">PPRE1[2:0]</td>
+                        <td colspan="4" title="[软件控制] AHB 预分频 [0xxx]不分频 [1000]2 ... [1111]512">HPRE[3:0]</td>
+                        <td colspan="2" title="[硬件控制] 显示当前系统时钟源 [00]HSI [01]HSE [10]PLL [11]不可用">SWS[1:0]</td>
+                        <td colspan="2" title="[软件控制] 设置当前系统时钟源 [00]HSI [01]HSE [10]PLL [11]不可用">SW[1:0]</td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">rw</td>
+                        <td colspan="3">rw</td>
+                        <td colspan="3">rw</td>
+                        <td colspan="4">rw</td>
+                        <td colspan="2">r</td>
+                        <td colspan="2">rw</td>
+                    </tr>
+                </table>
+
+                <h3>时钟中断寄存器 RCC_CIR</h3>
+                <p>复位：0x0000_0000</p>
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="8">保留</td>
+                        <td>CSSC</td>
+                        <td colspan="2">保留</td>
+                        <td>PLL
+                            RDYC</td>
+                        <td>HSE
+                            RDYC</td>
+                        <td>HSI
+                            RDYC</td>
+                        <td>LSE
+                            RDYC</td>
+                        <td>LSI
+                            RDYC</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">res</td>
+                        <td>w</td>
+                        <td colspan="2">res</td>
+                        <td>w</td>
+                        <td>w</td>
+                        <td>w</td>
+                        <td>w</td>
+                        <td>w</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td colspan="3">保留</td>
+                        <td>PLL
+                            RDYIE</td>
+                        <td>HSE
+                            RDYIE</td>
+                        <td>HSI
+                            RDYIE</td>
+                        <td>LSE
+                            RDYIE</td>
+                        <td>LSI
+                            RDYIE</td>
+
+                        <td>CSSF</td>
+                        <td colspan="2">保留</td>
+                        <td>PLL
+                            RDYF</td>
+                        <td>HSE
+                            RDYF</td>
+                        <td>HSI
+                            RDYF</td>
+                        <td>LSE
+                            RDYF</td>
+                        <td>LSI
+                            RDYF</td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="3">res</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+
+                        <td>r</td>
+                        <td colspan="2">res</td>
+                        <td>r</td>
+                        <td>r</td>
+                        <td>r</td>
+                        <td>r</td>
+                        <td>r</td>
+
+                    </tr>
+                </table>
+
+
+                <h3>APB2 复位寄存器 RCC_APB2RSTR</h3>
+                <p>复位：0x0000_0000</p>
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="16">保留</td>
+                    </tr>
+                    <tr>
+                        <td colspan="16">res</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td>ADC3
+                            RST</td>
+                        <td>USART1
+                            RST
+                        </td>
+                        <td>TIM8
+                            RST
+                        </td>
+                        <td>SPI1
+                            RST</td>
+                        <td>TIM1
+                            RST
+                        </td>
+                        <td>ADC2
+                            RST
+                        </td>
+                        <td>ADC1
+                            RST
+                        </td>
+                        <td>IOPG
+                            RST
+                        </td>
+                        <td>IOPF
+                            RST</td>
+                        <td>IOPE
+                            RST</td>
+                        <td>IOPD
+                            RST</td>
+                        <td>IOPC
+                            RST</td>
+                        <td>IOPB
+                            RST</td>
+                        <td>IOPA
+                            RST</td>
+                        <td>保留</td>
+                        <td>AFIO
+                            RST
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td> 
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+
+                    </tr>
+                </table>
+                
+                <h3>APB1 复位寄存器 RCC_APB1RSTR</h3>
+                <p>复位：0x0000_0000</p>
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">保留</td>
+                        <td>DAC
+                            RST
+                        </td>
+                        <td>PWR
+                            RST
+                        </td>
+                        <td>BPK
+                            RST</td>
+                        <td>保留</td>
+                        <td>CAN
+                            RST
+                        </td>
+                        <td>保留</td>
+                        <td>USB
+                            RST</td>
+                        <td>I2C2
+                            RST</td>
+                        <td>I2C1
+                            RST</td>
+                        <td>UART5
+                            RST
+                        </td>
+                        <td>UART4
+                            RST
+                        </td>
+                        <td>UART3
+                            RST
+                        </td>
+                        <td>UART2
+                            RST
+                        </td>
+                        <td>保留
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">res</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>res</td>
+
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td>SPI3
+                            RST
+                        </td>
+                        <td>SPI2
+                            RST
+                        </td>
+                        <td colspan="2">保留
+                        </td>
+                        <td>WWDG
+                            RST
+                        </td>
+                        <td colspan="5">保留
+                        </td>
+                        <td>TIM7
+                            RST
+                        </td>
+                        <td>TIM6
+                            RST
+                        </td>
+                        <td>TIM5
+                            RST</td>
+                        <td>TIM4
+                            RST</td>
+                        <td>TIM3
+                            RST</td>
+                        <td>TIM2
+                            RST</td>
+                       
+                    </tr>
+                    <tr>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td colspan="2">res</td>
+                        <td>rw</td>
+                        <td colspan="5">res</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>           
+                        <td>rw</td>
+                        <td>rw</td>
+
+                    </tr>
+                </table>
+                
+                <h3>AHB 使能寄存器 RCC_AHBENR</h3>
+                <p>复位：0x0000_0014</p>
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="16">保留</td>
+                    </tr>
+                    <tr>
+                        <td colspan="16">res</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td colspan="5">保留</td>
+                        <td>SDIO
+                            EN
+                        </td>
+                        <td>保留
+                        </td>
+                        <td>FSMC
+                            EN
+                        </td>
+                        <td>保留
+                        </td>
+                        <td>CRC
+                            EN
+                        </td>
+                        <td>保留
+                        </td>
+                        <td>FLITF
+                            EN
+                        </td>
+                        <td>保留</td>
+                        <td>SRAM
+                            EN
+                        </td>
+                        <td>DMA2
+                            EN
+                        </td>
+                        <td>DMA1
+                            EN
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">res</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td> 
+                        <td>rw</td>
+                        <td>rw</td>                       
+
+                    </tr>
+                </table>
+
+                <h3>APB2 使能寄存器 RCC_APB2ENR</h3>
+                <p>复位：0x0000_0000</p>
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="16">保留</td>
+                    </tr>
+                    <tr>
+                        <td colspan="16">res</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td>ADC3
+                            EN</td>
+                        <td>USART1
+                            EN
+                        </td>
+                        <td>TIM8
+                            EN
+                        </td>
+                        <td>SPI1
+                            EN</td>
+                        <td>TIM1
+                            EN
+                        </td>
+                        <td>ADC2
+                            EN
+                        </td>
+                        <td>ADC1
+                            EN
+                        </td>
+                        <td>IOPG
+                            EN
+                        </td>
+                        <td>IOPF
+                            EN</td>
+                        <td>IOPE
+                            EN</td>
+                        <td>IOPD
+                            EN</td>
+                        <td>IOPC
+                            EN</td>
+                        <td>IOPB
+                            EN</td>
+                        <td>IOPA
+                            EN</td>
+                        <td>保留</td>
+                        <td>AFIO
+                            EN
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td> 
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+
+                    </tr>
+                </table>
+                
+                <h3>APB1 使能寄存器 RCC_APB1ENR</h3>
+                <p>复位：0x0000_0000</p>
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">保留</td>
+                        <td>DAC
+                            EN
+                        </td>
+                        <td>PWR
+                            EN
+                        </td>
+                        <td>BPK
+                            EN</td>
+                        <td>保留</td>
+                        <td>CAN
+                            EN
+                        </td>
+                        <td>保留</td>
+                        <td>USB
+                            EN</td>
+                        <td>I2C2
+                            EN</td>
+                        <td>I2C1
+                            EN</td>
+                        <td>UART5
+                            EN
+                        </td>
+                        <td>UART4
+                            EN
+                        </td>
+                        <td>UART3
+                            EN
+                        </td>
+                        <td>UART2
+                            EN
+                        </td>
+                        <td>保留
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">res</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+                        <td>res</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>res</td>
+
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td>SPI3
+                            EN
+                        </td>
+                        <td>SPI2
+                            EN
+                        </td>
+                        <td colspan="2">保留
+                        </td>
+                        <td>WWDG
+                            EN
+                        </td>
+                        <td colspan="5">保留
+                        </td>
+                        <td>TIM7
+                            EN
+                        </td>
+                        <td>TIM6
+                            EN
+                        </td>
+                        <td>TIM5
+                            EN</td>
+                        <td>TIM4
+                            EN</td>
+                        <td>TIM3
+                            EN</td>
+                        <td>TIM2
+                            EN</td>
+                       
+                    </tr>
+                    <tr>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td colspan="2">res</td>
+                        <td>rw</td>
+                        <td colspan="5">res</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>           
+                        <td>rw</td>
+                        <td>rw</td>
+
+                    </tr>
+                </table>
+
+                <h3>备份域控制寄存器 RCC_BDCR</h3>
+                <p>复位：0x0000_0000 只能由备份域复位控制进行复位</p>
+                <p>注意：该寄存器的所有位（除BDRST外）均位于备份域，上电之后自动写保护。</p><p>需要改动之前应先置位PWR->CR中的DBP位才可写入。</p>
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td colspan="15">保留</td>
+                        <td>BDTST</td>
+                    </tr>
+                    <tr>
+                        <td colspan="15">res</td>
+                        <td>rw</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td>RTC
+                            EN</td>
+                        <td colspan="5">保留
+                        </td>
+                        <td colspan="2">RTCSEL[1:0]
+                        </td>
+                        <td colspan="5">保留</td>
+                        <td>LSE
+                            BYP
+                        </td>
+                        <td>LES
+                            RDY
+                        </td>
+                        <td>LES
+                            ON</td>
+                    </tr>
+                    <tr>
+                        <td>rw</td>
+                        <td colspan="5">res</td>
+
+                        <td colspan="2">rw</td>
+                      
+                        <td colspan="5">res</td>
+                        <td>rw</td>
+                        <td>r</td>
+                        <td>rw</td>
+
+                    </tr>
+                </table>
+
+                <h3>控制/状态寄存器 RCC_CSR</h3>
+                <p>复位：0x0C00_0000 除复位标志外由系统复位清除，复位标志只能由电源复位清除</p>
+
+                <table>
+                    <tr>
+                        <th>31</th>
+                        <th>30</th>
+                        <th>29</th>
+                        <th>28</th>
+                        <th>27</th>
+                        <th>26</th>
+                        <th>25</th>
+                        <th>24</th>
+                        <th>23</th>
+                        <th>22</th>
+                        <th>21</th>
+                        <th>20</th>
+                        <th>19</th>
+                        <th>18</th>
+                        <th>17</th>
+                        <th>16</th>
+                    </tr>
+                    <tr>
+                        <td>LPWR
+                            RSTF
+                        </td>
+                        <td>WWDG
+                            RSTF
+                        </td>
+                        <td>IWDG
+                            RSTF
+                        </td>
+                        <td>SFT
+                            RSTF
+                        </td>
+                        <td>
+                            POR
+                            RSTF
+                        </td>
+                        <td>PIN
+                            RSTF
+                        </td>
+                        <td>保留</td>
+                        <td>RMVF</td>
+                        <td colspan="8">保留</td>
+   
+                    </tr>
+                    <tr>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+                        <td>rw</td>
+
+                        <td>res</td>
+                        <td>rw</td>
+
+                        <td colspan="18">res</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>15</th>
+                        <th>14</th>
+                        <th>13</th>
+                        <th>12</th>
+                        <th>11</th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        <th>5</th>
+                        <th>4</th>
+                        <th>3</th>
+                        <th>2</th>
+                        <th>1</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td colspan="14">保留
+                        </td>
+                        <td>LEI
+                            RDY
+                        </td>
+                        <td>LEI
+                            ON</td>
+                    </tr>
+                    <tr>
+                        <td colspan="14">res</td>
+                        <td>r</td>
+                        <td>rw</td>
+                    </tr>
+                </table>
+
+                <h2>寄存器 map</h2>
+                <p><img src="./fig/REG_RCC.jpg" /></p>
+
+
+                <h2>时钟树</h2>
+                <p><img src="./fig/clock_tree.jpg" title="clock_tree"/></p>
+            </div>
+
+            <!--GPIO-->
+            <div id="2">
+                <h1>GPIO 通用输入输出 </h1>
+                
+            </div>
+
+        </div>
+    </body>
+</html>
+

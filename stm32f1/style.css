@@ -1,0 +1,108 @@
+*{
+    border: 1px solid red;
+    margin: 0px;
+    padding: 0px;
+}
+img{
+    width: 800px;
+}
+p{
+    width: 920px;
+}
+html{
+    min-width: 1000px;
+    max-width: 1000px;
+    flex-direction: column;
+    margin: auto;
+}
+body{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    background-color: rgb(221, 217, 197);
+}
+
+nav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 48px;
+}
+nav>div{
+    flex-grow: 1;
+    line-height: 48px;
+    font-size: x-large;
+}
+
+.tab{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    height: 48px;
+
+    margin: 8px 0px;
+}
+
+.ti{
+    flex-grow: 1;
+    line-height: 48px;
+    font-size: larger;
+}
+.ti:hover{
+    cursor: pointer;
+    background-color: aliceblue;
+}
+
+#display>*{
+    display: none;
+}
+
+#display>.default-show{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+ 
+#display>*>h1{
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 8px;
+}
+#display>*>h2{
+    font-weight: 400;
+    align-self: self-start;
+    margin: 20px 0px 12px 24px;
+}
+#display>*>h3{
+    font-weight: 400;
+    align-self: self-start;
+    margin: 20px 0px 12px 36px;
+}
+
+#display>*>p{
+    font-weight: 400;
+    align-self: self-start;
+    margin: 20px 36px 12px 36px;
+}
+
+
+
+table{
+    table-layout: fixed;
+    margin-bottom: 20px;
+}
+th{
+    width: 40px;
+    height: 32px;
+    border: 1px solid rgb(0, 0, 0);
+    padding: 0px 8px;
+}
+td{
+    height: 32px;
+    text-align: center;
+    border: 1px solid rgb(0, 0, 0);
+    padding: 0px 4px;
+
+}
