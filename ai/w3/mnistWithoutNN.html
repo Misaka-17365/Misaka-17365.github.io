@@ -7670,7 +7670,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="%E6%9E%84%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B">构建神经网络模型<a class="anchor-link" href="#%E6%9E%84%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B">¶</a></h2><p>这个神经网络一共有3层全连接层，前三层使用<code>ReLU</code>作为激活函数，最后一层直接输出</p>
+<h2 id="%E6%9E%84%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B">构建神经网络模型<a class="anchor-link" href="#%E6%9E%84%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B">¶</a></h2><p>这个神经网络一共有3层全连接层，前两层使用<code>ReLU</code>作为激活函数，最后一层直接输出</p>
 <p>由于没有使用优化器，这里优化相关代码直接写在模块的<code>optim</code>方法里，导数清理在<code>zero_grad</code>方法里</p>
 <blockquote>
 <p>这个<code>__call__</code>方法是模仿<code>nn.module</code>，其实没什么特殊用处，换成普通方法也一样</p>
